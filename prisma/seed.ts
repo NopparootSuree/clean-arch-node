@@ -12,10 +12,10 @@ async function main() {
   });
 
   // Seed borrowers
-  await prisma.borrower.createMany({
+  await prisma.user.createMany({
     data: [
-      { firstName: 'John', lastName: 'Doe', email: 'john.doe@example.com', phone: '1234567890', department: 'Engineering' },
-      { firstName: 'Jane', lastName: 'Doe', email: 'jane.doe@example.com', phone: '0987654321', department: 'Marketing' },
+      { username: 'admin1',firstName: 'John', lastName: 'Doe', role: 'john.doe@example.com', phone: '1234567890', department: 'Engineering' },
+      { username: 'admin2',firstName: 'Jane', lastName: 'Doe', role: 'jane.doe@example.com', phone: '0987654321', department: 'Marketing' },
     ],
   });
 

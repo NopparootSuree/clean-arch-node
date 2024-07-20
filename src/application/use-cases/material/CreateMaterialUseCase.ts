@@ -1,5 +1,5 @@
 import { Material } from '../../../domain/entities/material/Material';
-import { MaterialRepository } from '../../../domain/repositories/MaterialRepository';
+import { MaterialRepository } from '../../../domain/repositories/material/MaterialRepository';
 import { TransactionManager } from '../../../infrastructure/database/TransactionManager';
 import { CreateMaterialDto } from '../../dtos/material/CreateMaterialDto';
 import { validate } from 'class-validator';

@@ -23,25 +23,34 @@ model Material {
   updatedAt   DateTime     @updatedAt
   deletedAt   DateTime?
   status      MaterialStatus[]
-  transactionDetails TransactionDetail[]
+  transactionDetails BorrowTransactionDetail[]
 }
 
-model Borrower {
+model User {
   id          Int          @id @default(autoincrement())
+  username       String       @unique
   firstName   String
   lastName    String
-  email       String       @unique
   phone       String?
   department  String?
+  role        String
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
   deletedAt   DateTime?
   transactions BorrowTransaction[]
 }
 
+model UserPasswords {
+  id          Int      @id @default(autoincrement())
+  userId      Int      
+  passwordHash String
+  salt        String
+}
+
+
 model BorrowTransaction {
   id          Int          @id @default(autoincrement())
-  borrower    Borrower     @relation(fields: [borrowerId], references: [id])
+  borrower    User     @relation(fields: [borrowerId], references: [id])
   borrowerId  Int
   borrowDate  DateTime     @default(now())
   returnDate  DateTime?
@@ -49,10 +58,10 @@ model BorrowTransaction {
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
   deletedAt   DateTime?
-  details     TransactionDetail[]
+  details     BorrowTransactionDetail[]
 }
 
-model TransactionDetail {
+model BorrowTransactionDetail {
   id          Int          @id @default(autoincrement())
   transaction BorrowTransaction @relation(fields: [transactionId], references: [id])
   transactionId Int

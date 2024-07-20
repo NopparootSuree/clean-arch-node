@@ -6,7 +6,7 @@ import { CreateMaterialUseCase } from './application/use-cases/material/CreateMa
 import { MaterialController } from './interfaces/controllers/material/MaterialController';
 import { MaterialSerializer } from './interfaces/serializers/material/MaterialSerializer';
 import { securityMiddleware, errorHandler } from './infrastructure/security/SecurityMiddleware';
-import { createMaterialRoutes } from './interfaces/routes/materialRoutes';
+import { createMaterialRoutes } from './interfaces/routes/material/materialRoutes';
 
 export function createApp(prisma: PrismaClient) {
   const app = express();
