@@ -1,0 +1,70 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlserver"
+  url      = env("DATABASE_URL")
+}
+
+model Material {
+  id          Int          @id @default(autoincrement())
+  name        String
+  description String?
+  quantity    Int
+  unit        String
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  status      MaterialStatus[]
+  transactionDetails TransactionDetail[]
+}
+
+model Borrower {
+  id          Int          @id @default(autoincrement())
+  firstName   String
+  lastName    String
+  email       String       @unique
+  phone       String?
+  department  String?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  transactions BorrowTransaction[]
+}
+
+model BorrowTransaction {
+  id          Int          @id @default(autoincrement())
+  borrower    Borrower     @relation(fields: [borrowerId], references: [id])
+  borrowerId  Int
+  borrowDate  DateTime     @default(now())
+  returnDate  DateTime?
+  status      String
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  details     TransactionDetail[]
+}
+
+model TransactionDetail {
+  id          Int          @id @default(autoincrement())
+  transaction BorrowTransaction @relation(fields: [transactionId], references: [id])
+  transactionId Int
+  material    Material     @relation(fields: [materialId], references: [id])
+  materialId  Int
+  quantity    Int
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+}
+
+model MaterialStatus {
+  id          Int          @id @default(autoincrement())
+  material    Material     @relation(fields: [materialId], references: [id])
+  materialId  Int
+  status      String
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+}
