@@ -15,7 +15,7 @@ export class CreateMaterialUseCase {
     const errors = await validate(materialData);
     if (errors.length > 0) {
       throw new Error(errors.map(error => Object.values(error.constraints!)).join(', '));
-    }
+    } 
 
     return this.transactionManager.runInTransaction(async (transaction) => {
       const material = new Material(
@@ -25,7 +25,8 @@ export class CreateMaterialUseCase {
         materialData.quantity,
         materialData.unit,
         new Date(),
-        new Date()
+        new Date(),
+        null
       );
 
       return this.materialRepository.create(material, transaction);

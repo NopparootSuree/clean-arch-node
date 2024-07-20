@@ -31,7 +31,7 @@ describe('CreateMaterialUseCase', () => {
       unit: 'pcs',
     };
 
-    const createdMaterial = new Material(1, dto.name, dto.description!, dto.quantity, dto.unit, new Date(), new Date());
+    const createdMaterial = new Material(1, dto.name, dto.description!, dto.quantity, dto.unit, new Date(), new Date(),null);
     mockMaterialRepository.create.mockResolvedValue(createdMaterial);
 
     const result = await createMaterialUseCase.execute(dto);

@@ -11,6 +11,7 @@ CREATE TABLE [dbo].[Material] (
     [unit] NVARCHAR(1000) NOT NULL,
     [createdAt] DATETIME2 NOT NULL CONSTRAINT [Material_createdAt_df] DEFAULT CURRENT_TIMESTAMP,
     [updatedAt] DATETIME2 NOT NULL,
+    [deletedAt] DATETIME2,
     CONSTRAINT [Material_pkey] PRIMARY KEY CLUSTERED ([id])
 );
 
@@ -24,6 +25,7 @@ CREATE TABLE [dbo].[Borrower] (
     [department] NVARCHAR(1000),
     [createdAt] DATETIME2 NOT NULL CONSTRAINT [Borrower_createdAt_df] DEFAULT CURRENT_TIMESTAMP,
     [updatedAt] DATETIME2 NOT NULL,
+    [deletedAt] DATETIME2,
     CONSTRAINT [Borrower_pkey] PRIMARY KEY CLUSTERED ([id]),
     CONSTRAINT [Borrower_email_key] UNIQUE NONCLUSTERED ([email])
 );
@@ -37,6 +39,7 @@ CREATE TABLE [dbo].[BorrowTransaction] (
     [status] NVARCHAR(1000) NOT NULL,
     [createdAt] DATETIME2 NOT NULL CONSTRAINT [BorrowTransaction_createdAt_df] DEFAULT CURRENT_TIMESTAMP,
     [updatedAt] DATETIME2 NOT NULL,
+    [deletedAt] DATETIME2,
     CONSTRAINT [BorrowTransaction_pkey] PRIMARY KEY CLUSTERED ([id])
 );
 
@@ -48,6 +51,7 @@ CREATE TABLE [dbo].[TransactionDetail] (
     [quantity] INT NOT NULL,
     [createdAt] DATETIME2 NOT NULL CONSTRAINT [TransactionDetail_createdAt_df] DEFAULT CURRENT_TIMESTAMP,
     [updatedAt] DATETIME2 NOT NULL,
+    [deletedAt] DATETIME2,
     CONSTRAINT [TransactionDetail_pkey] PRIMARY KEY CLUSTERED ([id])
 );
 
@@ -58,6 +62,7 @@ CREATE TABLE [dbo].[MaterialStatus] (
     [status] NVARCHAR(1000) NOT NULL,
     [createdAt] DATETIME2 NOT NULL CONSTRAINT [MaterialStatus_createdAt_df] DEFAULT CURRENT_TIMESTAMP,
     [updatedAt] DATETIME2 NOT NULL,
+    [deletedAt] DATETIME2,
     CONSTRAINT [MaterialStatus_pkey] PRIMARY KEY CLUSTERED ([id])
 );
 

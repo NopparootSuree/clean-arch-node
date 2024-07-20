@@ -6,6 +6,7 @@ import { CreateMaterialUseCase } from './application/use-cases/material/CreateMa
 import { MaterialController } from './interfaces/controllers/MaterialController';
 import { MaterialSerializer } from './interfaces/serializers/MaterialSerializer';
 import { securityMiddleware, errorHandler } from './infrastructure/security/SecurityMiddleware';
+import { createMaterialRoutes } from './interfaces/routes/materialRoutes';
 
 export function createApp(prisma: PrismaClient) {
   const app = express();
@@ -21,7 +22,7 @@ export function createApp(prisma: PrismaClient) {
   const materialController = new MaterialController(createMaterialUseCase, materialSerializer);
 
   // Routes
-  app.post('/api/materials', (req, res) => materialController.createMaterial(req, res));
+  app.use('/api/materials', createMaterialRoutes(materialController));
 
   // Error handling middleware
   app.use(errorHandler);

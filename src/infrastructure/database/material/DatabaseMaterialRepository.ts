@@ -56,7 +56,8 @@ export class DatabaseMaterialRepository implements MaterialRepository {
       material.quantity,
       material.unit,
       material.createdAt,
-      material.updatedAt
+      material.updatedAt,
+      material.deleteAt
     );
   }
 }
