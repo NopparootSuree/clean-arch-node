@@ -6,5 +6,5 @@ export interface MaterialRepository {
     findAll(): Promise<Material[]>
     create(material: Material, transaction?: Transaction): Promise<Material>
     update(material: Material, transaction?: Transaction): Promise<Material>
-    delete(id: number, transaction?: Transaction): Promise<void>
+    delete(material: Material, transaction?: Transaction): Promise<Material>
 }

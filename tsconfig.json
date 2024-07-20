@@ -10,6 +10,14 @@
     "forceConsistentCasingInFileNames": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "strictPropertyInitialization": false
+    "strictPropertyInitialization": false,
+    "baseUrl": "src",
+    "paths": {
+      "@utils/*": ["utils/*"],
+      "@application/*": ["application/*"],
+      "@domain/*": ["domain/*"],
+      "@infrastructure/*": ["infrastructure/*"],
+      "@interfaces/*": ["interfaces/*"]
+    }
   }
 }

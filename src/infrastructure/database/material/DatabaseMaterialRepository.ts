@@ -43,9 +43,15 @@ export class DatabaseMaterialRepository implements MaterialRepository {
     return this.mapToDomain(updatedMaterial);
   }
 
-  async delete(id: number, transaction?: Transaction): Promise<void> {
+  async delete(material: Material, transaction?: Transaction): Promise<Material> {
     const client = transaction || this.prisma;
-    await client.material.delete({ where: { id } });
+    const updatedMaterial = await client.material.update({
+      where: { id: material.id },
+      data: {
+        deletedAt: new Date
+      },
+    });
+    return this.mapToDomain(updatedMaterial);
   }
 
   private mapToDomain(material: any): Material {
