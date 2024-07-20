@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client';
-import { Material } from '../../../domain/entities/Material';
+import { Material } from '../../../domain/entities/material/Material';
 import { MaterialRepository } from '../../../domain/repositories/MaterialRepository';
 import { Transaction } from '../Transaction';
 

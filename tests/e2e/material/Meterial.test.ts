@@ -1,6 +1,6 @@
 import request from 'supertest';
 import { PrismaClient } from '@prisma/client';
-import { createApp } from '../../src/app';
+import { createApp } from '../../../src/app';
 
 describe('Material API', () => {
   let prisma: PrismaClient;

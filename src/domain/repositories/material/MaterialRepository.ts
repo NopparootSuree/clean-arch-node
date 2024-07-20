@@ -1,4 +1,4 @@
-import { Material } from '../entities/Material';
+import { Material } from '../entities/material/Material';
 import { Transaction } from '../../infrastructure/database/Transaction';
 
 export interface MaterialRepository {

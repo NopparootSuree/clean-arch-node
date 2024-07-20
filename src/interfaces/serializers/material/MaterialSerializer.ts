@@ -1,4 +1,4 @@
-import { Material } from '../../domain/entities/Material';
+import { Material } from '../../../domain/entities/material/Material';
 
 export class MaterialSerializer {
   serialize(material: Material) {

@@ -1,8 +1,8 @@
 import { CreateMaterialUseCase } from '../CreateMaterialUseCase';
 import { MaterialRepository } from '../../../../domain/repositories/MaterialRepository';
 import { TransactionManager } from '../../../../infrastructure/database/TransactionManager';
-import { CreateMaterialDto } from '../../../dtos/CreateMaterialDto';
-import { Material } from '../../../../domain/entities/Material';
+import { CreateMaterialDto } from '../../../dtos/material/CreateMaterialDto';
+import { Material } from '../../../../domain/entities/material/Material';
 
 describe('CreateMaterialUseCase', () => {
   let createMaterialUseCase: CreateMaterialUseCase;

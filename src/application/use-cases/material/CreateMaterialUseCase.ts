@@ -1,7 +1,7 @@
-import { Material } from '../../../domain/entities/Material';
+import { Material } from '../../../domain/entities/material/Material';
 import { MaterialRepository } from '../../../domain/repositories/MaterialRepository';
 import { TransactionManager } from '../../../infrastructure/database/TransactionManager';
-import { CreateMaterialDto } from '../../dtos/CreateMaterialDto';
+import { CreateMaterialDto } from '../../dtos/material/CreateMaterialDto';
 import { validate } from 'class-validator';
 
 export class CreateMaterialUseCase {

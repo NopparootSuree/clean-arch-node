@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
-import { CreateMaterialUseCase } from '../../application/use-cases/material/CreateMaterialUseCase';
-import { MaterialSerializer } from '../serializers/MaterialSerializer';
-import { CreateMaterialDto } from '../../application/dtos/CreateMaterialDto';
+import { CreateMaterialUseCase } from '../../../application/use-cases/material/CreateMaterialUseCase';
+import { MaterialSerializer } from '../../serializers/material/MaterialSerializer';
+import { CreateMaterialDto } from '../../../application/dtos/material/CreateMaterialDto';
 import { plainToClass } from 'class-transformer';
 
 export class MaterialController {

@@ -3,8 +3,8 @@ import { PrismaClient } from '@prisma/client';
 import { DatabaseMaterialRepository } from './infrastructure/database/material/DatabaseMaterialRepository';
 import { TransactionManager } from './infrastructure/database/TransactionManager';
 import { CreateMaterialUseCase } from './application/use-cases/material/CreateMaterialUseCase';
-import { MaterialController } from './interfaces/controllers/MaterialController';
-import { MaterialSerializer } from './interfaces/serializers/MaterialSerializer';
+import { MaterialController } from './interfaces/controllers/material/MaterialController';
+import { MaterialSerializer } from './interfaces/serializers/material/MaterialSerializer';
 import { securityMiddleware, errorHandler } from './infrastructure/security/SecurityMiddleware';
 import { createMaterialRoutes } from './interfaces/routes/materialRoutes';
 
