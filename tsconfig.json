@@ -17,7 +17,8 @@
       "@application/*": ["application/*"],
       "@domain/*": ["domain/*"],
       "@infrastructure/*": ["infrastructure/*"],
-      "@interfaces/*": ["interfaces/*"]
+      "@interfaces/*": ["interfaces/*"],
+      "@configs/*": ["configs/*"]
     }
   }
 }

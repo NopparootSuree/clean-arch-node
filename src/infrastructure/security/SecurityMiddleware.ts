@@ -1,4 +1,4 @@
-import { config } from 'configs/config';
+import { config } from '@configs/config';
 import { Request, Response, NextFunction } from 'express';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
@@ -6,7 +6,7 @@ import rateLimit from 'express-rate-limit';
 export const securityMiddleware = [
   helmet(),
   rateLimit({
-    windowMs: config.rateLimit.windowMs * 60 * 1000,
+    windowMs: config.rateLimit.windowMs,
     max: config.rateLimit.max,
     handler: (req, res) => {
       res.status(config.rateLimit.statusCode).json({
