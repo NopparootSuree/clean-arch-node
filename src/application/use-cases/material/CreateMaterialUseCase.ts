@@ -3,6 +3,7 @@ import { MaterialRepository } from '@domain/repositories/material/MaterialReposi
 import { TransactionManager } from '@infrastructure/database/TransactionManager';
 import { CreateMaterialDto } from '@application/dtos/material/CreateMaterialDto';
 import { validate } from 'class-validator';
+import { plainToClass } from 'class-transformer';
 import { logger } from '@utils/logger';
 
 export class CreateMaterialUseCase {
@@ -13,24 +14,24 @@ export class CreateMaterialUseCase {
 
   async execute(materialData: CreateMaterialDto): Promise<Material> {
     try {
-      // Validate input
-      const errors = await validate(materialData);
+      const dto = plainToClass(CreateMaterialDto, materialData);
+      const errors = await validate(dto);
       if (errors.length > 0) {
-        const errorMessage = `Validation failed: ${errors.map((error) => Object.values(error.constraints!)).join(', ')}`;
+        const errorMessages = errors.map((error) => Object.values(error.constraints || {}).join(', ')).join('; ');
+        const errorMessage = `Validation failed: ${errorMessages}`;
         logger.error({ materialData }, errorMessage);
         throw new Error(errorMessage);
       }
 
-      return this.transactionManager.runInTransaction(async (transaction) => {
-        const material = new Material(0, materialData.name, materialData.description ?? null, materialData.quantity, materialData.unit, new Date(), new Date(), null);
-
+      return await this.transactionManager.runInTransaction(async (transaction) => {
+        const material = new Material(0, dto.name, dto.description ?? null, dto.quantity, dto.unit, new Date(), new Date(), null);
         const createdMaterial = await this.materialRepository.create(material, transaction);
         logger.info({ materialId: createdMaterial.id }, 'Material created successfully');
         return createdMaterial;
       });
     } catch (error) {
       logger.error({ error, materialData }, 'Failed to create material');
-      throw new Error('Failed to create material');
+      throw error;
     }
   }
 }

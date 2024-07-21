@@ -3,6 +3,11 @@ import { MaterialRepository } from '@domain/repositories/material/MaterialReposi
 import { TransactionManager } from '@infrastructure/database/TransactionManager';
 import { CreateMaterialDto } from '@application/dtos/material/CreateMaterialDto';
 import { Material } from '@domain/entities/material/Material';
+import { validate } from 'class-validator';
+import { logger } from '@utils/logger';
+
+jest.mock('class-validator');
+jest.mock('@utils/logger');
 
 describe('CreateMaterialUseCase', () => {
   let createMaterialUseCase: CreateMaterialUseCase;
@@ -23,9 +28,13 @@ describe('CreateMaterialUseCase', () => {
     } as unknown as jest.Mocked<TransactionManager>;
 
     createMaterialUseCase = new CreateMaterialUseCase(mockMaterialRepository, mockTransactionManager);
+
+    (validate as jest.Mock).mockResolvedValue([]);
+    (logger.error as jest.Mock).mockClear();
+    (logger.info as jest.Mock).mockClear();
   });
 
-  it('should update a new material', async () => {
+  it('should create a new material successfully', async () => {
     const dto: CreateMaterialDto = {
       name: 'Test Material',
       description: 'Test Description',
@@ -40,5 +49,20 @@ describe('CreateMaterialUseCase', () => {
 
     expect(mockMaterialRepository.create).toHaveBeenCalledWith(expect.any(Material), expect.anything());
     expect(result).toEqual(createdMaterial);
+    expect(logger.info).toHaveBeenCalledWith({ materialId: createdMaterial.id }, 'Material created successfully');
+  });
+
+  it('should throw an error when validation fails', async () => {
+    const dto: CreateMaterialDto = {
+      name: '',
+      description: 'Test Description',
+      quantity: -1,
+      unit: 'pcs',
+    };
+
+    (validate as jest.Mock).mockResolvedValue([{ constraints: { isNotEmpty: 'name should not be empty' } }]);
+
+    await expect(createMaterialUseCase.execute(dto)).rejects.toThrow('Validation failed: name should not be empty');
+    expect(logger.error).toHaveBeenCalledWith({ materialData: dto }, 'Validation failed: name should not be empty');
   });
 });

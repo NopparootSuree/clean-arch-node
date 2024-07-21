@@ -17,18 +17,6 @@
     "test:integration": "jest tests/integration",
     "test:e2e": "jest tests/e2e"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "*.ts": [
-      "prettier --write",
-      "eslint --fix",
-      "git add"
-    ]
-  },
   "keywords": [],
   "author": "",
   "license": "ISC",
