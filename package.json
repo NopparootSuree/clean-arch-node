@@ -12,7 +12,7 @@
     "lint": "eslint \"src/**/*.ts\" --fix",
     "lint:fix": "eslint . --ext .ts --fix",
     "seed": "ts-node prisma/seed.ts",
-    "test": "jest",
+    "test": "jest --detectOpenHandles",
     "test:unit": "jest src",
     "test:integration": "jest tests/integration",
     "test:e2e": "jest tests/e2e"
