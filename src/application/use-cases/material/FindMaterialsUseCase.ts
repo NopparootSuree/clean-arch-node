@@ -1,5 +1,5 @@
-import { Material } from '../../../domain/entities/material/Material';
-import { MaterialRepository } from '../../../domain/repositories/material/MaterialRepository';
+import { Material } from '@domain/entities/material/Material';
+import { MaterialRepository } from '@domain/repositories/material/MaterialRepository';
 import { logger } from '@utils/logger';
 
 export class FindMaterialsUseCase {
