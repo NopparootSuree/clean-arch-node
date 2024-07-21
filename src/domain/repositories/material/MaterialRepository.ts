@@ -1,5 +1,5 @@
-import { Material } from '../../../domain/entities/material/Material';
-import { Transaction } from '../../../infrastructure/database/Transaction';
+import { Material } from '@domain/entities/material/Material';
+import { Transaction } from '@infrastructure/database/Transaction';
 
 export interface MaterialRepository {
   findById(id: number): Promise<Material | null>;

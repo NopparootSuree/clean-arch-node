@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client';
-import { Material } from '../../../domain/entities/material/Material';
-import { MaterialRepository } from '../../../domain/repositories/material/MaterialRepository';
+import { Material } from '@domain/entities/material/Material';
+import { MaterialRepository } from '@domain/repositories/material/MaterialRepository';
 import { Transaction } from '../Transaction';
 
 export class DatabaseMaterialRepository implements MaterialRepository {
