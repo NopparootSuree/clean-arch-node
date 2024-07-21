@@ -12,7 +12,6 @@ jest.mock('@utils/logger', () => ({
   logger: {
     info: jest.fn(),
     error: jest.fn(),
-    // เพิ่ม methods อื่นๆ ตามที่ใช้
   },
 }));
 
