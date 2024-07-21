@@ -1,17 +1,17 @@
-import { IsString, IsNumber, IsOptional, Min } from 'class-validator'
+import { IsString, IsNumber, IsOptional, Min } from 'class-validator';
 
 export class CreateMaterialDto {
-    @IsString()
-    name: string
+  @IsString()
+  name: string;
 
-    @IsString()
-    @IsOptional()
-    description?: string
+  @IsString()
+  @IsOptional()
+  description?: string;
 
-    @IsNumber()
-    @Min(0)
-    quantity: number
+  @IsNumber()
+  @Min(0)
+  quantity: number;
 
-    @IsString()
-    unit: string
+  @IsString()
+  unit: string;
 }
