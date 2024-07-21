@@ -1,4 +1,6 @@
 #!/bin/sh
 set -e
 
-npx lint-staged
+npm run format
+npm run lint
+npm test
