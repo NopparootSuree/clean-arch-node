@@ -2,11 +2,18 @@ import { Material } from '@domain/entities/material/Material';
 import { MaterialRepository } from '@domain/repositories/material/MaterialRepository';
 import { TransactionManager } from '@infrastructure/database/TransactionManager';
 import { UpdateMaterialDto } from '@application/dtos/material/UpdateMaterialDto';
-import { UpdateMaterialUseCase } from '../UpdateMaterialUseCase';
+import { UpdateMaterialUseCase } from '../../src/application/use-cases/material/UpdateMaterialUseCase';
 import { validate } from 'class-validator';
 
+jest.useFakeTimers();
 jest.mock('class-validator');
-jest.mock('@utils/logger');
+jest.mock('@utils/logger', () => ({
+  logger: {
+    info: jest.fn(),
+    error: jest.fn(),
+    // เพิ่ม methods อื่นๆ ตามที่ใช้
+  },
+}));
 
 describe('UpdateMaterialUseCase', () => {
   let updateMaterialUseCase: UpdateMaterialUseCase;

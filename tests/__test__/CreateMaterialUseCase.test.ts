@@ -6,8 +6,15 @@ import { Material } from '@domain/entities/material/Material';
 import { validate } from 'class-validator';
 import { logger } from '@utils/logger';
 
+jest.useFakeTimers();
 jest.mock('class-validator');
-jest.mock('@utils/logger');
+jest.mock('@utils/logger', () => ({
+  logger: {
+    info: jest.fn(),
+    error: jest.fn(),
+    // เพิ่ม methods อื่นๆ ตามที่ใช้
+  },
+}));
 
 describe('CreateMaterialUseCase', () => {
   let createMaterialUseCase: CreateMaterialUseCase;

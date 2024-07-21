@@ -1,9 +1,16 @@
 import { Material } from '@domain/entities/material/Material';
 import { MaterialRepository } from '@domain/repositories/material/MaterialRepository';
-import { FindMaterialByIdUseCase } from '../FindMaterialByIdUseCase';
+import { FindMaterialByIdUseCase } from '../../src/application/use-cases/material/FindMaterialByIdUseCase';
 import { logger } from '@utils/logger';
 
-jest.mock('@utils/logger');
+jest.useFakeTimers();
+jest.mock('@utils/logger', () => ({
+  logger: {
+    info: jest.fn(),
+    error: jest.fn(),
+    // เพิ่ม methods อื่นๆ ตามที่ใช้
+  },
+}));
 
 describe('FindMaterialByIdUseCase', () => {
   let findMaterialByIdUseCase: FindMaterialByIdUseCase;
