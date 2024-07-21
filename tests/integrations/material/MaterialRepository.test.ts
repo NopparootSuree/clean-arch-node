@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client';
-import { DatabaseMaterialRepository } from '../../../src/infrastructure/database/material/DatabaseMaterialRepository';
-import { Material } from '../../../src/domain/entities/material/Material';
+import { DatabaseMaterialRepository } from '@infrastructure/database/material/DatabaseMaterialRepository';
+import { Material } from '@domain/entities/material/Material';
 
 describe('DatabaseMaterialRepository', () => {
   let prisma: PrismaClient;

@@ -1,8 +1,8 @@
-import { CreateMaterialUseCase } from '../material/CreateMaterialUseCase';
-import { MaterialRepository } from '../../../domain/repositories/material/MaterialRepository';
-import { TransactionManager } from '../../../infrastructure/database/TransactionManager';
-import { CreateMaterialDto } from '../../dtos/material/CreateMaterialDto';
-import { Material } from '../../../domain/entities/material/Material';
+import { CreateMaterialUseCase } from '@application/use-cases/material/CreateMaterialUseCase';
+import { MaterialRepository } from '@domain/repositories/material/MaterialRepository';
+import { TransactionManager } from '@infrastructure/database/TransactionManager';
+import { CreateMaterialDto } from '@application/dtos/material/CreateMaterialDto';
+import { Material } from '@domain/entities/material/Material';
 
 describe('CreateMaterialUseCase', () => {
   let createMaterialUseCase: CreateMaterialUseCase;
@@ -23,7 +23,7 @@ describe('CreateMaterialUseCase', () => {
     );
   });
 
-  it('should create a new material', async () => {
+  it('should update a new material', async () => {
     const dto: CreateMaterialDto = {
       name: 'Test Material',
       description: 'Test Description',

@@ -17,14 +17,14 @@ export class UpdateMaterialUseCase {
 
             if (errors.length > 0) {
                 const errorMessage = `Validation failed: ${errors.map((error) => Object.values(error.constraints!)).join(', ')}`
-                logger.error({ materialData, errors }, errorMessage)
+                logger.error({ materialData }, errorMessage)
                 throw new Error(errorMessage)
             }
 
             return this.transactionManager.runInTransaction(
                 async (transaction) => {
                     const material = new Material(
-                        0,
+                        materialData.id,
                         materialData.name,
                         materialData.description || null,
                         materialData.quantity,

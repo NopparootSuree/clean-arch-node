@@ -10,7 +10,7 @@ export class MaterialSerializer {
       unit: material.unit,
       createdAt: material.createdAt,
       updatedAt: material.updatedAt,
-      deleteAt: material.deleteAt
+      deleteAt: material.deletedAt
     };
   }
 }

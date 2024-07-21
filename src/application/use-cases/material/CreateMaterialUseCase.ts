@@ -17,7 +17,7 @@ export class CreateMaterialUseCase {
             const errors = await validate(materialData)
             if (errors.length > 0) {
                 const errorMessage = `Validation failed: ${errors.map((error) => Object.values(error.constraints!)).join(', ')}`
-                logger.error({ materialData, errors }, errorMessage)
+                logger.error({ materialData }, errorMessage)
                 throw new Error(errorMessage)
             }
 

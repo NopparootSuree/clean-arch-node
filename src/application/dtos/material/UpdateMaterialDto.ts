@@ -1,6 +1,9 @@
 import { IsString, IsNumber, IsOptional, Min, IsDate } from 'class-validator';
 
 export class UpdateMaterialDto {
+  @IsNumber()
+  id: number
+
   @IsString()
   name: string;
 

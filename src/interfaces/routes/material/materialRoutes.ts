@@ -1,5 +1,5 @@
 import express from 'express';
-import { MaterialController } from '../controllers/material/MaterialController';
+import { MaterialController } from '@interfaces/controllers/material/MaterialController';
 
 export function createMaterialRoutes(materialController: MaterialController) {
   const router = express.Router();

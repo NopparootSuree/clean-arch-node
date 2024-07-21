@@ -6,7 +6,7 @@ export class Material {
       public quantity: number,
       public unit: string,
       public createdAt: Date,
-      public updatedAt: Date,
-      public deleteAt: Date | null
+      public updatedAt: Date | null,
+      public deletedAt: Date | null
     ) {}
   }
