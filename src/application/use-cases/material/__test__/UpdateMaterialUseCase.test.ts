@@ -9,24 +9,31 @@ jest.mock('class-validator')
 jest.mock('@utils/logger')
 
 describe('UpdateMaterialUseCase', () => {
-    let updateMaterialUseCase: UpdateMaterialUseCase;
-    let mockMaterialRepository: jest.Mocked<MaterialRepository>;
-    let mockTransactionManager: jest.Mocked<TransactionManager>;
+    let updateMaterialUseCase: UpdateMaterialUseCase
+    let mockMaterialRepository: jest.Mocked<MaterialRepository>
+    let mockTransactionManager: jest.Mocked<TransactionManager>
 
     beforeEach(() => {
         mockMaterialRepository = {
+            create: jest.fn(),
+            findById: jest.fn(),
             update: jest.fn(),
-        } as any;
+            delete: jest.fn(),
+            findAll: jest.fn(),
+        } as jest.Mocked<MaterialRepository>
+
         mockTransactionManager = {
-            runInTransaction: jest.fn((callback) => callback({})),
-        } as any;
+            runInTransaction: jest
+                .fn()
+                .mockImplementation((callback) => callback({})),
+        } as unknown as jest.Mocked<TransactionManager>
 
         updateMaterialUseCase = new UpdateMaterialUseCase(
-            mockMaterialRepository, mockTransactionManager
-        );
-
-        (validate as jest.Mock).mockResolvedValue([]);
-    });
+            mockMaterialRepository,
+            mockTransactionManager
+        )
+        ;(validate as jest.Mock).mockResolvedValue([])
+    })
 
     it('should update an existing material', async () => {
         const dto: UpdateMaterialDto = {
@@ -35,13 +42,22 @@ describe('UpdateMaterialUseCase', () => {
             description: 'Updated Description',
             quantity: 20,
             unit: 'kg',
-            createdAt: new Date("2022-02-25"),
-        };
+            createdAt: new Date('2022-02-25'),
+        }
 
-        const updatedMaterial = new Material(dto.id, dto.name, dto.description!, dto.quantity, dto.unit, dto.createdAt, new Date(), null);
-        mockMaterialRepository.update.mockResolvedValue(updatedMaterial);
+        const updatedMaterial = new Material(
+            dto.id,
+            dto.name,
+            dto.description!,
+            dto.quantity,
+            dto.unit,
+            dto.createdAt,
+            new Date(),
+            null
+        )
+        mockMaterialRepository.update.mockResolvedValue(updatedMaterial)
 
-        const result = await updateMaterialUseCase.execute(dto);
+        const result = await updateMaterialUseCase.execute(dto)
 
         expect(mockMaterialRepository.update).toHaveBeenCalledWith(
             expect.objectContaining({
@@ -52,13 +68,13 @@ describe('UpdateMaterialUseCase', () => {
                 unit: dto.unit,
                 createdAt: dto.createdAt,
                 updatedAt: expect.any(Date),
-                deletedAt: null
+                deletedAt: null,
             }),
             expect.anything()
-        );
-        expect(mockTransactionManager.runInTransaction).toHaveBeenCalled();
-        expect(result).toEqual(updatedMaterial);
-    });
+        )
+        expect(mockTransactionManager.runInTransaction).toHaveBeenCalled()
+        expect(result).toEqual(updatedMaterial)
+    })
 
     it('should throw an error if validation fails', async () => {
         const invalidDto: UpdateMaterialDto = {
@@ -67,16 +83,24 @@ describe('UpdateMaterialUseCase', () => {
             description: '',
             quantity: -5, // Invalid: negative quantity
             unit: 'pcs',
-            createdAt: new Date("2022-02-25"),
-        };
+            createdAt: new Date('2022-02-25'),
+        }
 
-        (validate as jest.Mock).mockResolvedValue([
-            { property: 'name', constraints: { isNotEmpty: 'name should not be empty' } },
-            { property: 'quantity', constraints: { min: 'quantity must be a positive number' } }
-        ]);
+        ;(validate as jest.Mock).mockResolvedValue([
+            {
+                property: 'name',
+                constraints: { isNotEmpty: 'name should not be empty' },
+            },
+            {
+                property: 'quantity',
+                constraints: { min: 'quantity must be a positive number' },
+            },
+        ])
 
-        await expect(updateMaterialUseCase.execute(invalidDto)).rejects.toThrow('Failed to updated material');
-    });
+        await expect(updateMaterialUseCase.execute(invalidDto)).rejects.toThrow(
+            'Failed to updated material'
+        )
+    })
 
     it('should throw an error if update fails', async () => {
         const dto: UpdateMaterialDto = {
@@ -85,11 +109,15 @@ describe('UpdateMaterialUseCase', () => {
             description: 'Updated Description',
             quantity: 20,
             unit: 'kg',
-            createdAt: new Date("2022-02-25"),
-        };
+            createdAt: new Date('2022-02-25'),
+        }
 
-        mockMaterialRepository.update.mockRejectedValue(new Error('Failed to updated material'));
+        mockMaterialRepository.update.mockRejectedValue(
+            new Error('Failed to updated material')
+        )
 
-        await expect(updateMaterialUseCase.execute(dto)).rejects.toThrow('Failed to updated material');
-    });
-});
+        await expect(updateMaterialUseCase.execute(dto)).rejects.toThrow(
+            'Failed to updated material'
+        )
+    })
+})

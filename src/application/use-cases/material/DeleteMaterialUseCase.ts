@@ -13,18 +13,22 @@ export class DeleteMaterialUseCase {
         try {
             return this.transactionManager.runInTransaction(
                 async (transaction) => {
-                    material.deleteAt = new Date()
-                    const deletedMaterial = await this.materialRepository.delete(material, transaction);
+                    material.deletedAt = new Date()
+                    const deletedMaterial =
+                        await this.materialRepository.delete(
+                            material,
+                            transaction
+                        )
                     logger.info(
                         { materialId: deletedMaterial.id },
                         'Material deleted successfully'
                     )
-                    return deletedMaterial;
+                    return deletedMaterial
                 }
             )
         } catch (error) {
             logger.error({ error, material }, 'Failed to delete material')
-            throw new Error('Failed to delete material');
+            throw new Error('Failed to delete material')
         }
     }
 }

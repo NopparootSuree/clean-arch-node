@@ -1,7 +1,7 @@
-import { Material } from "./Material";
+import { Material } from './Material'
 
 export class MaterialStatus {
-    constructor (
+    constructor(
         public id: number,
         public material: Material,
         public materialId: number,

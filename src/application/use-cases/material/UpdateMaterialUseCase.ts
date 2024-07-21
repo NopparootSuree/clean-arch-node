@@ -34,13 +34,20 @@ export class UpdateMaterialUseCase {
                         null
                     )
 
-                    const updatedMaterial = await this.materialRepository.update(material, transaction);
-                    logger.info({materialId: material.id}, 'Material updated successfully')
-                    return updatedMaterial;
+                    const updatedMaterial =
+                        await this.materialRepository.update(
+                            material,
+                            transaction
+                        )
+                    logger.info(
+                        { materialId: material.id },
+                        'Material updated successfully'
+                    )
+                    return updatedMaterial
                 }
             )
         } catch (error) {
-            logger.error({error: materialData}, 'Failed to updated material')
+            logger.error({ error: materialData }, 'Failed to updated material')
             throw new Error('Failed to updated material')
         }
     }

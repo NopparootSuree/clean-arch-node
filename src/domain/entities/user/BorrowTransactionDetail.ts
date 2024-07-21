@@ -1,8 +1,8 @@
-import { BorrowTransaction } from "./BorrowTransaction";
-import { Material } from "../material/Material";
+import { BorrowTransaction } from './BorrowTransaction'
+import { Material } from '../material/Material'
 
 export class BorrowTransactionDetail {
-    constructor (
+    constructor(
         public id: number,
         public transaction: BorrowTransaction,
         public transactionId: number,
