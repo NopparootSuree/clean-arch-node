@@ -1,6 +1,6 @@
 import { Material } from '@domain/entities/material/Material';
 import { MaterialRepository } from '@domain/repositories/material/MaterialRepository';
-import { FindMaterialsUseCase } from '../../src/application/use-cases/material/FindMaterialsUseCase';
+import { FindMaterialsUseCase } from '@application/use-cases/material/FindMaterialsUseCase';
 import { logger } from '@utils/logger';
 
 jest.useFakeTimers();
