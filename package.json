@@ -13,7 +13,7 @@
     "lint:fix": "eslint . --ext .ts --fix",
     "seed": "ts-node prisma/seed.ts",
     "test": "jest --detectOpenHandles --runInBand",
-    "test:unit": "jest src",
+    "test:unit": "jest tests/unit",
     "test:integration": "jest tests/integration",
     "test:e2e": "jest tests/e2e"
   },
