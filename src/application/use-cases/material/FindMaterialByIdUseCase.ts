@@ -7,7 +7,7 @@ export class FindMaterialByIdUseCase {
   async execute(id: number): Promise<Material | null> {
     try {
       const findMaterialById = await this.materialRepository.findById(id);
-      logger.info({ materialId: id }, 'Material was found');
+      logger.info(`Material was found id = ${findMaterialById?.id}`);
       return findMaterialById;
     } catch (error) {
       logger.error({ error: id }, 'Failed to find by id material');

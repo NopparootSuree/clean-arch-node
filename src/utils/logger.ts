@@ -1,8 +1,14 @@
 import pino from 'pino';
+import pinoHttp from 'pino-http';
+import { Request, Response } from 'express';
 
 const transport = pino.transport({
   target: 'pino-pretty',
-  options: { destination: 1 }, // ใช้ stdout
+  options: {
+    colorize: true,
+    translateTime: 'SYS:yyyy-mm-dd HH:MM:ss',
+    ignore: 'pid,hostname',
+  },
 });
 
 export const logger = pino(
@@ -19,3 +25,27 @@ export async function closeLogger() {
     transport.end();
   });
 }
+
+export const httpLogger = pinoHttp({
+  logger,
+  customLogLevel: (req, res, err) => {
+    if (res.statusCode >= 400 && res.statusCode < 500) {
+      return 'warn';
+    } else if (res.statusCode >= 500 || err) {
+      return 'error';
+    }
+    return 'info';
+  },
+  customSuccessMessage: (req: Request, res: Response) => {
+    return `${req.method} ${req.originalUrl} ${res.statusCode}`;
+  },
+  customErrorMessage: (req: Request, res: Response) => {
+    return `${req.method} ${req.originalUrl} ${res.statusCode}`;
+  },
+  // ปิดการแสดงข้อมูล request และ response
+  serializers: {
+    req: () => undefined,
+    res: () => undefined,
+    responseTime: () => undefined,
+  },
+});

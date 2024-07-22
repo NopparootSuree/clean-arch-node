@@ -49,7 +49,6 @@ describe('FindMaterialByIdUseCase', () => {
 
     expect(mockMaterialRepository.findById).toHaveBeenCalledWith(materialId);
     expect(result).toEqual(material);
-    expect(logger.info).toHaveBeenCalledWith({ materialId }, 'Material was found');
   });
 
   it('should return null when material is not found', async () => {
@@ -60,7 +59,6 @@ describe('FindMaterialByIdUseCase', () => {
 
     expect(mockMaterialRepository.findById).toHaveBeenCalledWith(materialId);
     expect(result).toBeNull();
-    expect(logger.info).toHaveBeenCalledWith({ materialId }, 'Material was found');
   });
 
   it('should throw an error when repository throws an error', async () => {

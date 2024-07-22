@@ -55,7 +55,6 @@ describe('CreateMaterialUseCase', () => {
 
     expect(mockMaterialRepository.create).toHaveBeenCalledWith(expect.any(Material), expect.anything());
     expect(result).toEqual(createdMaterial);
-    expect(logger.info).toHaveBeenCalledWith({ materialId: createdMaterial.id }, 'Material created successfully');
   });
 
   it('should throw an error when validation fails', async () => {

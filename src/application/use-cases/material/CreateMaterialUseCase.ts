@@ -26,7 +26,7 @@ export class CreateMaterialUseCase {
       return await this.transactionManager.runInTransaction(async (transaction) => {
         const material = new Material(0, dto.name, dto.description ?? null, dto.quantity, dto.unit, new Date(), new Date(), null);
         const createdMaterial = await this.materialRepository.create(material, transaction);
-        logger.info({ materialId: createdMaterial.id }, 'Material created successfully');
+        logger.info(`Material created successfully id = ${createdMaterial.id}`);
         return createdMaterial;
       });
     } catch (error) {

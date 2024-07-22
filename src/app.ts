@@ -2,32 +2,32 @@ import express from 'express';
 import { PrismaClient } from '@prisma/client';
 import { DatabaseMaterialRepository } from '@infrastructure/database/material/DatabaseMaterialRepository';
 import { TransactionManager } from '@infrastructure/database/TransactionManager';
-import { CreateMaterialUseCase } from '@application/use-cases/material/CreateMaterialUseCase';
-import { FindMaterialByIdUseCase } from '@application/use-cases/material/FindMaterialByIdUseCase';
-import { FindMaterialsUseCase } from '@application/use-cases/material/FindMaterialsUseCase';
-import { UpdateMaterialUseCase } from '@application/use-cases/material/UpdateMaterialUseCase';
-import { DeleteMaterialUseCase } from '@application/use-cases/material/DeleteMaterialUseCase';
-import { MaterialController } from '@interfaces/controllers/material/MaterialController';
-import { MaterialSerializer } from '@interfaces/serializers/material/MaterialSerializer';
 import { securityMiddleware, errorHandler } from '@infrastructure/security/SecurityMiddleware';
 import { createMaterialRoutes } from './interfaces/routes/material/materialRoutes';
+
+import { httpLogger } from '@utils/logger';
+
+// Swagger
+import swaggerUi from 'swagger-ui-express';
+import specs from '@utils/swagger';
+
+// Group dependency material
+import { materialGroupController } from 'dependency/material';
 
 export function createApp(prisma: PrismaClient) {
   const app = express();
 
   app.use(express.json());
+  app.use(httpLogger);
   app.use(securityMiddleware);
+  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 
   // Dependencies
   const transactionManager = new TransactionManager(prisma);
   const materialRepository = new DatabaseMaterialRepository(prisma);
-  const createMaterialUseCase = new CreateMaterialUseCase(materialRepository, transactionManager);
-  const findMaterialByIdUseCase = new FindMaterialByIdUseCase(materialRepository);
-  const findMaterialsUseCase = new FindMaterialsUseCase(materialRepository);
-  const updateMaterialUseCase = new UpdateMaterialUseCase(materialRepository, transactionManager);
-  const deleteMaterialUseCase = new DeleteMaterialUseCase(materialRepository, transactionManager);
-  const materialSerializer = new MaterialSerializer();
-  const materialController = new MaterialController(createMaterialUseCase, findMaterialsUseCase, findMaterialByIdUseCase, updateMaterialUseCase, deleteMaterialUseCase, materialSerializer);
+
+  // Dependency material
+  const materialController = materialGroupController(transactionManager, materialRepository);
 
   // Routes
   app.use('/api/materials', createMaterialRoutes(materialController));
