@@ -50,18 +50,55 @@ export function createMaterialRoutes(materialController: MaterialController) {
    * @swagger
    *   /api/materials:
    *     get:
-   *       summary: Get all materials
-   *       description: Retrieves a list of all materials
+   *       summary: Get paginated list of materials
+   *       description: Retrieves a paginated list of materials
    *       tags: [Materials]
+   *       parameters:
+   *         - in: query
+   *           name: page
+   *           schema:
+   *             type: integer
+   *             minimum: 1
+   *             default: 1
+   *           description: Page number
+   *         - in: query
+   *           name: limit
+   *           schema:
+   *             type: integer
+   *             minimum: 1
+   *             maximum: 100
+   *             default: 10
+   *           description: Number of items per page
    *       responses:
    *         '200':
    *           description: Successful operation
    *           content:
    *             application/json:
    *               schema:
-   *                 type: array
-   *                 items:
-   *                   $ref: '#/components/schemas/Material'
+   *                 type: object
+   *                 properties:
+   *                   data:
+   *                     type: array
+   *                     items:
+   *                       $ref: '#/components/schemas/Material'
+   *                   total:
+   *                     type: integer
+   *                     description: Total number of materials
+   *                   page:
+   *                     type: integer
+   *                     description: Current page number
+   *                   limit:
+   *                     type: integer
+   *                     description: Number of items per page
+   *                   totalPages:
+   *                     type: integer
+   *                     description: Total number of pages
+   *         '400':
+   *           description: Bad Request
+   *           content:
+   *             application/json:
+   *               schema:
+   *                 $ref: '#/components/schemas/Error'
    *         '500':
    *           description: Internal Server Error
    *           content:
@@ -262,9 +299,6 @@ export function createMaterialRoutes(materialController: MaterialController) {
    *         unit:
    *           type: string
    *           description: The updated unit of measurement for the material
-   *         createdAt:
-   *           type: datetime
-   *           description: The updated time created for the material
    *
    *     Error:
    *       type: object

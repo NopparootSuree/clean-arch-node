@@ -2,20 +2,43 @@ import { PrismaClient } from '@prisma/client';
 import { Material } from '@domain/entities/material/Material';
 import { MaterialRepository } from '@domain/repositories/material/MaterialRepository';
 import { Transaction } from '../Transaction';
+import { PaginatedResult } from '@application/use-cases/material/FindMaterialsUseCase';
 
 export class DatabaseMaterialRepository implements MaterialRepository {
   constructor(private prisma: PrismaClient) {}
 
-  async findById(id: number): Promise<Material | null> {
-    const material = await this.prisma.material.findUnique({
-      where: { id },
-    });
-    return material ? this.mapToDomain(material) : null;
+  async findAll(options: { page: number; limit: number }): Promise<PaginatedResult<Material>> {
+    const { page, limit } = options;
+    const skip = (page - 1) * limit;
+    const [materials, total] = await Promise.all([
+      this.prisma.material.findMany({
+        skip,
+        take: limit,
+        where: { deletedAt: null },
+      }),
+      this.prisma.material.count({ where: { deletedAt: null } }),
+    ]);
+
+    const totalPages = Math.ceil(total / limit);
+
+    return {
+      data: materials.map(this.mapToDomain),
+      total,
+      page,
+      limit,
+      totalPages,
+    };
   }
 
-  async findAll(): Promise<Material[]> {
-    const materials = await this.prisma.material.findMany();
-    return materials.map(this.mapToDomain);
+  async count(): Promise<number> {
+    return this.prisma.material.count({ where: { deletedAt: null } });
+  }
+
+  async findById(id: number): Promise<Material | null> {
+    const material = await this.prisma.material.findUnique({
+      where: { id, deletedAt: null },
+    });
+    return material ? this.mapToDomain(material) : null;
   }
 
   async create(material: Material, transaction?: Transaction): Promise<Material> {
@@ -34,7 +57,7 @@ export class DatabaseMaterialRepository implements MaterialRepository {
   async update(material: Material, transaction?: Transaction): Promise<Material> {
     const client = transaction || this.prisma;
     const updatedMaterial = await client.material.update({
-      where: { id: material.id },
+      where: { id: material.id, deletedAt: null },
       data: {
         name: material.name,
         description: material.description,
@@ -48,7 +71,7 @@ export class DatabaseMaterialRepository implements MaterialRepository {
   async delete(material: Material, transaction?: Transaction): Promise<Material> {
     const client = transaction || this.prisma;
     const updatedMaterial = await client.material.update({
-      where: { id: material.id },
+      where: { id: material.id, deletedAt: null },
       data: {
         deletedAt: new Date(),
       },

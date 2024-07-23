@@ -9,17 +9,27 @@ export class DeleteMaterialUseCase {
     private transactionManager: TransactionManager,
   ) {}
 
-  async execute(material: Material): Promise<Material> {
-    try {
-      return this.transactionManager.runInTransaction(async (transaction) => {
-        material.deletedAt = new Date();
-        const deletedMaterial = await this.materialRepository.delete(material, transaction);
-        logger.info({ materialId: deletedMaterial }, 'Material deleted successfully');
+  async execute(id: number): Promise<Material> {
+    const material = await this.materialRepository.findById(id);
+    if (material) {
+      try {
+        const deletedMaterial = await this.transactionManager.runInTransaction(async (transaction) => {
+          material.deletedAt = new Date();
+          const deletedMaterial = await this.materialRepository.delete(material, transaction);
+          return deletedMaterial;
+        });
+
+        logger.info(`Material deleted successfully id = ${deletedMaterial.id}`);
         return deletedMaterial;
-      });
-    } catch (error) {
-      logger.error({ error, material }, 'Failed to delete material');
-      throw new Error('Failed to delete material');
+      } catch (error) {
+        const errorMessage = 'Failed to delete material';
+        logger.error(errorMessage);
+        throw new Error(errorMessage);
+      }
+    } else {
+      const warningMessage = 'Material not found';
+      logger.warn(warningMessage);
+      throw new Error(warningMessage);
     }
   }
 }

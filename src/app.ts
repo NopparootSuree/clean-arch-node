@@ -2,9 +2,10 @@ import express from 'express';
 import { PrismaClient } from '@prisma/client';
 import { DatabaseMaterialRepository } from '@infrastructure/database/material/DatabaseMaterialRepository';
 import { TransactionManager } from '@infrastructure/database/TransactionManager';
-import { securityMiddleware, errorHandler } from '@infrastructure/security/SecurityMiddleware';
 import { createMaterialRoutes } from './interfaces/routes/material/materialRoutes';
 
+// Middleware
+import { rateLimitMiddleware, errorHandler } from '@infrastructure/security/rateLimitMiddleware';
 import { httpLogger } from '@utils/logger';
 
 // Swagger
@@ -19,7 +20,7 @@ export function createApp(prisma: PrismaClient) {
 
   app.use(express.json());
   app.use(httpLogger);
-  app.use(securityMiddleware);
+  app.use(rateLimitMiddleware);
   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 
   // Dependencies

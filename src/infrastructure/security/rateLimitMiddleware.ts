@@ -3,7 +3,7 @@ import { Request, Response, NextFunction } from 'express';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 
-export const securityMiddleware = [
+export const rateLimitMiddleware = [
   helmet(),
   rateLimit({
     windowMs: config.rateLimit.windowMs,

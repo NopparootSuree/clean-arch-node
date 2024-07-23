@@ -1,9 +1,6 @@
-import { IsString, IsNumber, IsOptional, Min, IsDate } from 'class-validator';
+import { IsString, IsNumber, IsOptional, Min } from 'class-validator';
 
 export class UpdateMaterialDto {
-  @IsNumber()
-  id: number;
-
   @IsString()
   name: string;
 
@@ -17,7 +14,4 @@ export class UpdateMaterialDto {
 
   @IsString()
   unit: string;
-
-  @IsDate()
-  createdAt: Date;
 }

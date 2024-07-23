@@ -35,8 +35,18 @@ export class MaterialController {
 
   async findMaterials(req: Request, res: Response): Promise<void> {
     try {
-      const materials = await this.findMaterialsUseCase.execute();
-      res.status(200).json(materials);
+      const page = parseInt(req.query.page as string) || 1;
+      const limit = parseInt(req.query.limit as string) || 10;
+
+      const paginatedResult = await this.findMaterialsUseCase.execute({ page, limit });
+
+      res.status(200).json({
+        data: paginatedResult.data.map((material) => this.materialSerializer.serialize(material)),
+        total: paginatedResult.total,
+        page: paginatedResult.page,
+        limit: paginatedResult.limit,
+        totalPages: paginatedResult.totalPages,
+      });
     } catch (error) {
       if (error instanceof Error) {
         res.status(400).json({ error: error.message });
@@ -65,9 +75,8 @@ export class MaterialController {
     try {
       const { id } = req.params;
       const userId = parseInt(id);
-      const findMaterialById = await this.findMaterialByIdUseCase.execute(userId);
-      const updateMaterialDto = plainToClass(UpdateMaterialDto, findMaterialById);
-      const material = await this.updateMaterialUseCase.execute(updateMaterialDto);
+      const updateMaterialDto = plainToClass(UpdateMaterialDto, req.body);
+      const material = await this.updateMaterialUseCase.execute(userId, updateMaterialDto);
       res.status(200).json(this.materialSerializer.serialize(material));
     } catch (error) {
       if (error instanceof Error) {
@@ -82,13 +91,8 @@ export class MaterialController {
     try {
       const { id } = req.params;
       const userId = parseInt(id);
-      const findMaterialById = await this.findMaterialByIdUseCase.execute(userId);
-      if (findMaterialById) {
-        const material = await this.deleteMaterialUseCase.execute(findMaterialById);
-        res.status(200).json(this.materialSerializer.serialize(material));
-      } else {
-        throw new Error('bad request');
-      }
+      const material = await this.deleteMaterialUseCase.execute(userId);
+      res.status(200).json(this.materialSerializer.serialize(material));
     } catch (error) {
       if (error instanceof Error) {
         res.status(400).json({ error: error.message });

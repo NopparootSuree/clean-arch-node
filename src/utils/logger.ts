@@ -26,6 +26,14 @@ export async function closeLogger() {
   });
 }
 
+function colorStatusCode(statusCode: number): string {
+  if (statusCode < 200) return `\x1b[34m${statusCode}\x1b[0m`; // Blue
+  if (statusCode < 300) return `\x1b[32m${statusCode}\x1b[0m`; // Green
+  if (statusCode < 400) return `\x1b[36m${statusCode}\x1b[0m`; // Cyan
+  if (statusCode < 500) return `\x1b[33m${statusCode}\x1b[0m`; // Yellow
+  return `\x1b[31m${statusCode}\x1b[0m`; // Red
+}
+
 export const httpLogger = pinoHttp({
   logger,
   customLogLevel: (req, res, err) => {
@@ -37,10 +45,10 @@ export const httpLogger = pinoHttp({
     return 'info';
   },
   customSuccessMessage: (req: Request, res: Response) => {
-    return `${req.method} ${req.originalUrl} ${res.statusCode}`;
+    return `${req.method} ${colorStatusCode(res.statusCode)} \x1b[32m${req.originalUrl}\x1b[0m `;
   },
   customErrorMessage: (req: Request, res: Response) => {
-    return `${req.method} ${req.originalUrl} ${res.statusCode}`;
+    return `${req.method} ${colorStatusCode(res.statusCode)} \x1b[32m${req.originalUrl}\x1b[0m `;
   },
   // ปิดการแสดงข้อมูล request และ response
   serializers: {

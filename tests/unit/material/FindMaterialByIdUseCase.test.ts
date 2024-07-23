@@ -3,7 +3,6 @@ import { MaterialRepository } from '@domain/repositories/material/MaterialReposi
 import { FindMaterialByIdUseCase } from '@application/use-cases/material/FindMaterialByIdUseCase';
 import { logger } from '@utils/logger';
 
-jest.useFakeTimers();
 jest.mock('@utils/logger', () => ({
   logger: {
     info: jest.fn(),
@@ -17,12 +16,8 @@ describe('FindMaterialByIdUseCase', () => {
 
   beforeEach(() => {
     mockMaterialRepository = {
-      create: jest.fn(),
       findById: jest.fn(),
-      update: jest.fn(),
-      delete: jest.fn(),
-      findAll: jest.fn(),
-    } as jest.Mocked<MaterialRepository>;
+    } as unknown as jest.Mocked<MaterialRepository>;
 
     findMaterialByIdUseCase = new FindMaterialByIdUseCase(mockMaterialRepository);
 
@@ -49,24 +44,23 @@ describe('FindMaterialByIdUseCase', () => {
 
     expect(mockMaterialRepository.findById).toHaveBeenCalledWith(materialId);
     expect(result).toEqual(material);
+    expect(logger.info).toHaveBeenCalledWith(`Material was found id = ${materialId}`);
   });
 
-  it('should return null when material is not found', async () => {
+  it('should throw an error when material is not found', async () => {
     const materialId = 999;
     mockMaterialRepository.findById.mockResolvedValue(null);
 
-    const result = await findMaterialByIdUseCase.execute(materialId);
-
-    expect(mockMaterialRepository.findById).toHaveBeenCalledWith(materialId);
-    expect(result).toBeNull();
+    await expect(findMaterialByIdUseCase.execute(materialId)).rejects.toThrow('Material not found');
+    expect(logger.error).toHaveBeenCalledWith('Material not found');
   });
 
   it('should throw an error when repository throws an error', async () => {
     const materialId = 1;
-    const error = new Error('Database error');
+    const error = new Error('Failed to find by id material');
     mockMaterialRepository.findById.mockRejectedValue(error);
 
     await expect(findMaterialByIdUseCase.execute(materialId)).rejects.toThrow('Failed to find by id material');
-    expect(logger.error).toHaveBeenCalledWith({ error: materialId }, 'Failed to find by id material');
+    expect(logger.error).toHaveBeenCalledWith('Failed to find by id material');
   });
 });

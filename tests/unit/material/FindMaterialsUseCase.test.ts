@@ -1,6 +1,6 @@
 import { Material } from '@domain/entities/material/Material';
 import { MaterialRepository } from '@domain/repositories/material/MaterialRepository';
-import { FindMaterialsUseCase } from '@application/use-cases/material/FindMaterialsUseCase';
+import { FindMaterialsUseCase, PaginationOptions, PaginatedResult } from '@application/use-cases/material/FindMaterialsUseCase';
 import { logger } from '@utils/logger';
 
 jest.useFakeTimers();
@@ -22,6 +22,7 @@ describe('FindMaterialsUseCase', () => {
       update: jest.fn(),
       delete: jest.fn(),
       findAll: jest.fn(),
+      count: jest.fn(),
     } as jest.Mocked<MaterialRepository>;
 
     findMaterialsUseCase = new FindMaterialsUseCase(mockMaterialRepository);
@@ -30,7 +31,8 @@ describe('FindMaterialsUseCase', () => {
     (logger.error as jest.Mock).mockClear();
   });
 
-  it('should find all materials successfully', async () => {
+  it('should find materials successfully with pagination', async () => {
+    const paginationOptions: PaginationOptions = { page: 1, limit: 10 };
     const materials: Material[] = [
       {
         id: 1,
@@ -54,31 +56,48 @@ describe('FindMaterialsUseCase', () => {
       },
     ];
 
-    mockMaterialRepository.findAll.mockResolvedValue(materials);
+    const paginatedResult: PaginatedResult<Material> = {
+      data: materials,
+      total: 2,
+      page: 1,
+      limit: 10,
+      totalPages: 1,
+    };
 
-    const result = await findMaterialsUseCase.execute();
+    mockMaterialRepository.findAll.mockResolvedValue(paginatedResult);
 
-    expect(mockMaterialRepository.findAll).toHaveBeenCalled();
-    expect(result).toEqual(materials);
-    expect(logger.info).toHaveBeenCalledWith('Materials was found');
+    const result = await findMaterialsUseCase.execute(paginationOptions);
+
+    expect(mockMaterialRepository.findAll).toHaveBeenCalledWith(paginationOptions);
+    expect(result).toEqual(paginatedResult);
+    expect(logger.info).toHaveBeenCalledWith('Materials found. Page 1 of 1');
   });
 
   it('should return an empty array when no materials are found', async () => {
-    const emptyMaterials: Material[] = [];
-    mockMaterialRepository.findAll.mockResolvedValue(emptyMaterials);
+    const paginationOptions: PaginationOptions = { page: 1, limit: 10 };
+    const emptyPaginatedResult: PaginatedResult<Material> = {
+      data: [],
+      total: 0,
+      page: 1,
+      limit: 10,
+      totalPages: 0,
+    };
 
-    const result = await findMaterialsUseCase.execute();
+    mockMaterialRepository.findAll.mockResolvedValue(emptyPaginatedResult);
 
-    expect(mockMaterialRepository.findAll).toHaveBeenCalled();
-    expect(result).toEqual(emptyMaterials);
-    expect(logger.info).toHaveBeenCalledWith('Materials was found');
+    const result = await findMaterialsUseCase.execute(paginationOptions);
+
+    expect(mockMaterialRepository.findAll).toHaveBeenCalledWith(paginationOptions);
+    expect(result).toEqual(emptyPaginatedResult);
+    expect(logger.info).toHaveBeenCalledWith('Materials found. Page 1 of 0');
   });
 
   it('should throw an error when repository throws an error', async () => {
+    const paginationOptions: PaginationOptions = { page: 1, limit: 10 };
     const error = new Error('Database error');
     mockMaterialRepository.findAll.mockRejectedValue(error);
 
-    await expect(findMaterialsUseCase.execute()).rejects.toThrow('Failed to find materials');
-    expect(logger.error).toHaveBeenCalledWith({ error: error }, 'Failed to find materials');
+    await expect(findMaterialsUseCase.execute(paginationOptions)).rejects.toThrow('Failed to find materials');
+    expect(logger.error).toHaveBeenCalledWith('Failed to find materials', error);
   });
 });
