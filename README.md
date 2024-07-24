@@ -8,9 +8,15 @@
 
 สร้าง branch ใหม่จาก main เพื่อใช้เป็น integration branch:
 
+git checkout main
+git pull
+git checkout -b integration/feature-name
+
 ### 2. Merge Feature Branch เข้า Integration Branch
 
 นำ code จาก feature branch มา merge เข้า integration branch:
+
+git merge feature/feature-name
 
 ### 3. แก้ไข Conflicts และทดสอบ
 
@@ -28,13 +34,23 @@
 
 เมื่อผ่านการ review และทดสอบแล้ว ให้ merge integration branch เข้า main:
 
+git checkout main
+git merge integration/feature-name
+
 ### 6. Push to Remote
 
 Push การเปลี่ยนแปลงไปยัง remote repository:
 
+git push origin main
+
 ### 7. ทำความสะอาด
 
 ลบ integration branch และ feature branch ที่ไม่ใช้แล้ว:
+
+git branch -d integration/feature-name
+git branch -d feature/feature-name
+git push origin --delete integration/feature-name
+git push origin --delete feature/feature-name
 
 ## ข้อควรระวัง
 
