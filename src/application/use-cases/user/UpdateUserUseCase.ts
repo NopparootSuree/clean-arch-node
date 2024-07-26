@@ -36,7 +36,7 @@ export class UpdateUserUseCase {
             findUserById.createdAt,
             new Date(),
             null,
-            userData.role
+            userData.role,
           );
           const updateUser = await this.userRepository.update(user, transaction);
           return updateUser;
