@@ -2,9 +2,8 @@ import { Material } from '@domain/entities/material/Material';
 import { MaterialRepository } from '@domain/repositories/material/MaterialRepository';
 import { TransactionManager } from '@infrastructure/database/TransactionManager';
 import { CreateMaterialDto } from '@application/dtos/material/CreateMaterialDto';
-import { validate } from 'class-validator';
 import { logger } from '@utils/logger';
-import { ValidationError, DatabaseError, ERROR_CODES } from '@utils/errors';
+import { DatabaseError, ERROR_CODES } from '@utils/errors';
 
 export class CreateMaterialUseCase {
   constructor(
@@ -13,15 +12,6 @@ export class CreateMaterialUseCase {
   ) {}
 
   async execute(materialData: CreateMaterialDto): Promise<Material> {
-    const errors = await validate(materialData);
-    if (errors.length > 0) {
-      logger.warn('Validation failed', {
-        code: ERROR_CODES.VAL_001,
-        errors: errors.map((e) => ({ property: e.property, constraints: e.constraints })),
-      });
-      throw new ValidationError(errors);
-    }
-
     try {
       const createdMaterial = await this.transactionManager.runInTransaction(async (transaction) => {
         const material = new Material(0, materialData.name, materialData.description ?? null, materialData.quantity, materialData.unit, new Date(), new Date(), null);

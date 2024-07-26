@@ -7,8 +7,10 @@ import { MaterialSerializer } from '@interfaces/serializers/material/MaterialSer
 import { DeleteMaterialUseCase } from '@application/use-cases/material/DeleteMaterialUseCase';
 import { CreateMaterialDto } from '@application/dtos/material/CreateMaterialDto';
 import { UpdateMaterialDto } from '@application/dtos/material/UpdateMaterialDto';
+import { validate } from 'class-validator';
 import { plainToClass } from 'class-transformer';
-import { AppError, InternalServerError } from '@utils/errors';
+import { AppError, InternalServerError, ValidationError, ERROR_CODES } from '@utils/errors';
+import { logger } from '@utils/logger';
 
 export class MaterialController {
   constructor(
@@ -23,6 +25,14 @@ export class MaterialController {
   async createMaterial(req: Request, res: Response): Promise<void> {
     try {
       const createMaterialDto = plainToClass(CreateMaterialDto, req.body);
+      const errors = await validate(createMaterialDto);
+      if (errors.length > 0) {
+        logger.warn('Validation failed', {
+          code: ERROR_CODES.VAL_001,
+          errors: errors.map((e) => ({ property: e.property, constraints: e.constraints })),
+        });
+        throw new ValidationError(errors);
+      }
       const result = await this.createMaterialUseCase.execute(createMaterialDto);
       if (typeof result === 'string') {
         res.status(400).json({ error: result });
@@ -30,7 +40,9 @@ export class MaterialController {
         res.status(201).json(this.materialSerializer.serialize(result));
       }
     } catch (error: unknown) {
-      if (error instanceof AppError) {
+      if (error instanceof ValidationError) {
+        res.status(400).json({ error: error.message, details: error.errors });
+      } else if (error instanceof AppError) {
         res.status(error.statusCode).json({ error: error.message });
       } else if (error instanceof Error) {
         const internalError = new InternalServerError(error.message);
@@ -104,6 +116,16 @@ export class MaterialController {
       }
 
       const updateMaterialDto = plainToClass(UpdateMaterialDto, req.body);
+      const errors = await validate(updateMaterialDto);
+
+      if (errors.length > 0) {
+        logger.warn('Validation failed', {
+          code: ERROR_CODES.VAL_001,
+          errors: errors.map((e) => ({ property: e.property, constraints: e.constraints })),
+        });
+        throw new ValidationError(errors);
+      }
+
       const result = await this.updateMaterialUseCase.execute(materialId, updateMaterialDto);
       if (typeof result === 'string') {
         res.status(404).json({ error: result });
@@ -111,7 +133,9 @@ export class MaterialController {
         res.status(200).json(this.materialSerializer.serialize(result));
       }
     } catch (error) {
-      if (error instanceof Error) {
+      if (error instanceof ValidationError) {
+        res.status(400).json({ error: error.message, details: error.errors });
+      } else if (error instanceof Error) {
         res.status(400).json({ error: error.message });
       } else {
         res.status(500).json({ error: 'Internal server error' });

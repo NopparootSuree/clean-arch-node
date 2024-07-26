@@ -2,9 +2,8 @@ import { Material } from '@domain/entities/material/Material';
 import { MaterialRepository } from '@domain/repositories/material/MaterialRepository';
 import { TransactionManager } from '@infrastructure/database/TransactionManager';
 import { UpdateMaterialDto } from '@application/dtos/material/UpdateMaterialDto';
-import { validate } from 'class-validator';
 import { logger } from '@utils/logger';
-import { ValidationError, DatabaseError, ERROR_CODES, NotFoundError } from '@utils/errors';
+import { DatabaseError, ERROR_CODES, NotFoundError } from '@utils/errors';
 
 export class UpdateMaterialUseCase {
   constructor(
@@ -13,16 +12,6 @@ export class UpdateMaterialUseCase {
   ) {}
 
   async execute(id: number, materialData: UpdateMaterialDto): Promise<Material> {
-    const errors = await validate(materialData);
-
-    if (errors.length > 0) {
-      logger.warn('Validation failed', {
-        code: ERROR_CODES.VAL_001,
-        errors: errors.map((e) => ({ property: e.property, constraints: e.constraints })),
-      });
-      throw new ValidationError(errors);
-    }
-
     try {
       const findMaterialById = await this.materialRepository.findById(id);
       if (!findMaterialById) {
