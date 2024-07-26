@@ -8,6 +8,7 @@ import { DeleteMaterialUseCase } from '@application/use-cases/material/DeleteMat
 import { CreateMaterialDto } from '@application/dtos/material/CreateMaterialDto';
 import { UpdateMaterialDto } from '@application/dtos/material/UpdateMaterialDto';
 import { plainToClass } from 'class-transformer';
+import { AppError, InternalServerError } from '@utils/errors'
 
 export class MaterialController {
   constructor(
@@ -22,13 +23,21 @@ export class MaterialController {
   async createMaterial(req: Request, res: Response): Promise<void> {
     try {
       const createMaterialDto = plainToClass(CreateMaterialDto, req.body);
-      const material = await this.createMaterialUseCase.execute(createMaterialDto);
-      res.status(201).json(this.materialSerializer.serialize(material));
-    } catch (error) {
-      if (error instanceof Error) {
-        res.status(400).json({ error: error.message });
+      const result = await this.createMaterialUseCase.execute(createMaterialDto);
+      if (typeof result === 'string') {
+        res.status(400).json({error: result})
       } else {
-        res.status(500).json({ error: 'Internal server error' });
+        res.status(201).json(this.materialSerializer.serialize(result));
+      }
+    } catch (error: unknown) {
+      if (error instanceof AppError) {
+        res.status(error.statusCode).json({ error: error.message });
+      } else if (error instanceof Error) {
+        const internalError = new InternalServerError(error.message);
+        res.status(internalError.statusCode).json({ error: internalError.message });
+      } else {
+        const internalError = new InternalServerError();
+        res.status(internalError.statusCode).json({ error: internalError.message });
       }
     }
   }
@@ -59,9 +68,22 @@ export class MaterialController {
   async findMaterialById(req: Request, res: Response): Promise<void> {
     try {
       const { id } = req.params;
-      const userId = parseInt(id);
-      const material = await this.findMaterialByIdUseCase.execute(userId);
-      material ? res.status(200).json(this.materialSerializer.serialize(material)) : null;
+      const materialId = parseInt(id);
+
+      if (isNaN(materialId) || materialId <= 0) {
+        res.status(400).json({ error: 'Invalid ID. Must be a number.' });
+        return;
+      }
+
+      const result = await this.findMaterialByIdUseCase.execute(materialId);
+
+      if (typeof result === 'string') {
+        res.status(404).json({error: result});
+        return
+      } else {
+        res.status(200).json(this.materialSerializer.serialize(result))
+        return
+      }
     } catch (error) {
       if (error instanceof Error) {
         res.status(400).json({ error: error.message });
@@ -74,10 +96,22 @@ export class MaterialController {
   async updateMaterial(req: Request, res: Response): Promise<void> {
     try {
       const { id } = req.params;
-      const userId = parseInt(id);
+      const materialId = parseInt(id);
+
+      
+      if (isNaN(materialId) || materialId <= 0) {
+        res.status(400).json({ error: 'Invalid ID. Must be a number.' });
+        return;
+      }
+
       const updateMaterialDto = plainToClass(UpdateMaterialDto, req.body);
-      const material = await this.updateMaterialUseCase.execute(userId, updateMaterialDto);
-      res.status(200).json(this.materialSerializer.serialize(material));
+      const result = await this.updateMaterialUseCase.execute(materialId, updateMaterialDto);
+      if (typeof result === 'string') {
+        res.status(404).json({error: result})
+      } else {
+        res.status(200).json(this.materialSerializer.serialize(result));
+      }
+      
     } catch (error) {
       if (error instanceof Error) {
         res.status(400).json({ error: error.message });
@@ -90,9 +124,21 @@ export class MaterialController {
   async deleteMaterial(req: Request, res: Response): Promise<void> {
     try {
       const { id } = req.params;
-      const userId = parseInt(id);
-      const material = await this.deleteMaterialUseCase.execute(userId);
-      res.status(200).json(this.materialSerializer.serialize(material));
+      const materialId = parseInt(id);
+
+      if (isNaN(materialId) || materialId <= 0) {
+        res.status(400).json({ error: 'Invalid ID. Must be a number.' });
+        return;
+      }
+
+      const result = await this.deleteMaterialUseCase.execute(materialId);
+
+      if (typeof result === 'string') {
+        res.status(404).json({error: result})
+      } else {
+        res.status(200).json(this.materialSerializer.serialize(result));
+      }
+
     } catch (error) {
       if (error instanceof Error) {
         res.status(400).json({ error: error.message });

@@ -3,8 +3,8 @@ import { MaterialRepository } from '@domain/repositories/material/MaterialReposi
 import { TransactionManager } from '@infrastructure/database/TransactionManager';
 import { CreateMaterialDto } from '@application/dtos/material/CreateMaterialDto';
 import { validate } from 'class-validator';
-import { plainToClass } from 'class-transformer';
 import { logger } from '@utils/logger';
+import { ValidationError, DatabaseError, ERROR_CODES  } from '@utils/errors'
 
 export class CreateMaterialUseCase {
   constructor(
@@ -13,26 +13,31 @@ export class CreateMaterialUseCase {
   ) {}
 
   async execute(materialData: CreateMaterialDto): Promise<Material> {
-    const dto = plainToClass(CreateMaterialDto, materialData);
-    const errors = await validate(dto);
+    const errors = await validate(materialData);
     if (errors.length > 0) {
-      const warningMessage = 'Validation failed';
-      logger.warn(warningMessage);
-      throw new Error(warningMessage);
+      logger.warn('Validation failed', { 
+        code: ERROR_CODES.VAL_001,
+        errors: errors.map(e => ({ property: e.property, constraints: e.constraints }))
+      });
+      throw new ValidationError(errors)
     }
+    
     try {
       const createdMaterial = await this.transactionManager.runInTransaction(async (transaction) => {
-        const material = new Material(0, dto.name, dto.description ?? null, dto.quantity, dto.unit, new Date(), new Date(), null);
-        const createdMaterial = await this.materialRepository.create(material, transaction);
-        return createdMaterial;
+        const material = new Material(0, materialData.name, materialData.description ?? null, materialData.quantity, materialData.unit, new Date(), new Date(), null);
+        return await this.materialRepository.create(material, transaction);
       });
 
-      logger.info(`Material created successfully id = ${createdMaterial.id}`);
+      logger.info('Material created successfully', { materialId: createdMaterial.id });
       return createdMaterial;
     } catch (error) {
+      const errorCode = ERROR_CODES.OP_001;
       const errorMessage = 'Failed to create material';
-      logger.error(errorMessage);
-      throw new Error(errorMessage);
+      logger.error(errorMessage, {
+        code: errorCode,
+        errorDetails: error instanceof Error ? error.message : 'Unknown error',
+      });
+      throw new DatabaseError(errorMessage, errorCode);
     }
   }
 }

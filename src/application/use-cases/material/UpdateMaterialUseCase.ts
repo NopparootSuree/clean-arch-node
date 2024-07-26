@@ -3,8 +3,8 @@ import { MaterialRepository } from '@domain/repositories/material/MaterialReposi
 import { TransactionManager } from '@infrastructure/database/TransactionManager';
 import { UpdateMaterialDto } from '@application/dtos/material/UpdateMaterialDto';
 import { validate } from 'class-validator';
-import { plainToClass } from 'class-transformer';
 import { logger } from '@utils/logger';
+import { ValidationError, DatabaseError, ERROR_CODES, NotFoundError } from '@utils/errors';
 
 export class UpdateMaterialUseCase {
   constructor(
@@ -13,44 +13,39 @@ export class UpdateMaterialUseCase {
   ) {}
 
   async execute(id: number, materialData: UpdateMaterialDto): Promise<Material> {
-    const dto = plainToClass(UpdateMaterialDto, materialData);
-    const errors = await validate(dto);
+    const errors = await validate(materialData);
 
     if (errors.length > 0) {
-      const warningMessage = 'Validation failed';
-      logger.warn(warningMessage);
-      throw new Error(warningMessage);
+      logger.warn('Validation failed', {
+        code: ERROR_CODES.VAL_001,
+        errors: errors.map((e) => ({ property: e.property, constraints: e.constraints })),
+      });
+      throw new ValidationError(errors);
     }
 
-    const findMaterialById = await this.materialRepository.findById(id);
-    if (findMaterialById) {
-      try {
-        const updatedMaterial = await this.transactionManager.runInTransaction(async (transaction) => {
-          const material = new Material(
-            findMaterialById.id,
-            materialData.name,
-            materialData.description || null,
-            materialData.quantity,
-            materialData.unit,
-            findMaterialById.createdAt,
-            new Date(),
-            null,
-          );
-          const updatedMaterial = await this.materialRepository.update(material, transaction);
-          return updatedMaterial;
-        });
-
-        logger.info(`Material updated successfully id = ${updatedMaterial.id}`);
-        return updatedMaterial;
-      } catch (error) {
-        const errorMessage = 'Failed to updated material';
-        logger.error(errorMessage);
-        throw new Error(errorMessage);
+    try {
+      const findMaterialById = await this.materialRepository.findById(id);
+      if (!findMaterialById) {
+        const errorCode = ERROR_CODES.NF_001;
+        const errorMessage = 'Material not found';
+        logger.warn(errorMessage);
+        throw new NotFoundError('Material', errorCode);
       }
-    } else {
-      const warningMessage = 'Material not found';
-      logger.warn(warningMessage);
-      throw new Error(warningMessage);
+      const updatedMaterial = await this.transactionManager.runInTransaction(async (transaction) => {
+        const material = new Material(findMaterialById.id, materialData.name, materialData.description || null, materialData.quantity, materialData.unit, findMaterialById.createdAt, new Date(), null);
+        return await this.materialRepository.update(material, transaction);
+      });
+
+      logger.info('Material updated successfully id', { materialId: updatedMaterial.id });
+      return updatedMaterial;
+    } catch (error) {
+      const errorCode = ERROR_CODES.OP_002;
+      const errorMessage = 'Failed to update material';
+      logger.error(errorMessage, {
+        code: errorCode,
+        errorDetails: error instanceof Error ? error.message : 'Unknown error',
+      });
+      throw new DatabaseError(errorMessage, errorCode);
     }
   }
 }

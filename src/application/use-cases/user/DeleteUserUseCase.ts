@@ -3,7 +3,7 @@ import { UserRepository } from '@domain/repositories/user/UserRepository';
 import { TransactionManager } from '@infrastructure/database/TransactionManager';
 import { logger } from '@utils/logger';
 
-export class DeletUserUseCase {
+export class DeleteUserUseCase {
   constructor(
     private userRepository: UserRepository,
     private transactionManager: TransactionManager,

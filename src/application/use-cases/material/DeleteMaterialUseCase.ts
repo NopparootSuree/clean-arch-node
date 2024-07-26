@@ -2,6 +2,7 @@ import { Material } from '@domain/entities/material/Material';
 import { MaterialRepository } from '@domain/repositories/material/MaterialRepository';
 import { TransactionManager } from '@infrastructure/database/TransactionManager';
 import { logger } from '@utils/logger';
+import { DatabaseError, NotFoundError, ERROR_CODES } from '@utils/errors';
 
 export class DeleteMaterialUseCase {
   constructor(
@@ -11,25 +12,29 @@ export class DeleteMaterialUseCase {
 
   async execute(id: number): Promise<Material> {
     const material = await this.materialRepository.findById(id);
-    if (material) {
-      try {
-        const deletedMaterial = await this.transactionManager.runInTransaction(async (transaction) => {
-          material.deletedAt = new Date();
-          const deletedMaterial = await this.materialRepository.delete(material, transaction);
-          return deletedMaterial;
-        });
+    if (material === null || material.deletedAt !== null) {
+      const errorMessage = 'Material not found or already deleted';
+      logger.warn(errorMessage, { materialId: id });
+      throw new NotFoundError('Material', ERROR_CODES.NF_001);
+    }
 
-        logger.info(`Material deleted successfully id = ${deletedMaterial.id}`);
-        return deletedMaterial;
-      } catch (error) {
-        const errorMessage = 'Failed to delete material';
-        logger.error(errorMessage);
-        throw new Error(errorMessage);
-      }
-    } else {
-      const warningMessage = 'Material not found';
-      logger.warn(warningMessage);
-      throw new Error(warningMessage);
+    try {
+      const deletedMaterial = await this.transactionManager.runInTransaction(async (transaction) => {
+        material.deletedAt = new Date();
+        return await this.materialRepository.delete(material, transaction);
+      });
+
+      logger.info(`Material deleted successfully`, { materialId: deletedMaterial.id });
+      return deletedMaterial;
+    } catch (error) {
+      const errorCode = ERROR_CODES.OP_003;
+      const errorMessage = 'Failed to delete material';
+      logger.error(errorMessage, {
+        code: errorCode,
+        resourceId: id,
+        errorDetails: error instanceof Error ? error.message : 'Unknown error',
+      });
+      throw new DatabaseError(errorMessage, errorCode);
     }
   }
 }
