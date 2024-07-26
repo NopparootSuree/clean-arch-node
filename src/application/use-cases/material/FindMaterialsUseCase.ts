@@ -23,10 +23,10 @@ export class FindMaterialsUseCase {
     try {
       const { page, limit } = options;
       const result = await this.materialRepository.findAll({ page, limit });
-      logger.info('Materials found', { 
-        page: result.page, 
-        totalPages: result.totalPages, 
-        totalItems: result.total 
+      logger.info('Materials found', {
+        page: result.page,
+        totalPages: result.totalPages,
+        totalItems: result.total,
       });
       return result;
     } catch (error) {

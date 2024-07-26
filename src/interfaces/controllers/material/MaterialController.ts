@@ -8,7 +8,7 @@ import { DeleteMaterialUseCase } from '@application/use-cases/material/DeleteMat
 import { CreateMaterialDto } from '@application/dtos/material/CreateMaterialDto';
 import { UpdateMaterialDto } from '@application/dtos/material/UpdateMaterialDto';
 import { plainToClass } from 'class-transformer';
-import { AppError, InternalServerError } from '@utils/errors'
+import { AppError, InternalServerError } from '@utils/errors';
 
 export class MaterialController {
   constructor(
@@ -25,7 +25,7 @@ export class MaterialController {
       const createMaterialDto = plainToClass(CreateMaterialDto, req.body);
       const result = await this.createMaterialUseCase.execute(createMaterialDto);
       if (typeof result === 'string') {
-        res.status(400).json({error: result})
+        res.status(400).json({ error: result });
       } else {
         res.status(201).json(this.materialSerializer.serialize(result));
       }
@@ -78,11 +78,11 @@ export class MaterialController {
       const result = await this.findMaterialByIdUseCase.execute(materialId);
 
       if (typeof result === 'string') {
-        res.status(404).json({error: result});
-        return
+        res.status(404).json({ error: result });
+        return;
       } else {
-        res.status(200).json(this.materialSerializer.serialize(result))
-        return
+        res.status(200).json(this.materialSerializer.serialize(result));
+        return;
       }
     } catch (error) {
       if (error instanceof Error) {
@@ -98,7 +98,6 @@ export class MaterialController {
       const { id } = req.params;
       const materialId = parseInt(id);
 
-      
       if (isNaN(materialId) || materialId <= 0) {
         res.status(400).json({ error: 'Invalid ID. Must be a number.' });
         return;
@@ -107,11 +106,10 @@ export class MaterialController {
       const updateMaterialDto = plainToClass(UpdateMaterialDto, req.body);
       const result = await this.updateMaterialUseCase.execute(materialId, updateMaterialDto);
       if (typeof result === 'string') {
-        res.status(404).json({error: result})
+        res.status(404).json({ error: result });
       } else {
         res.status(200).json(this.materialSerializer.serialize(result));
       }
-      
     } catch (error) {
       if (error instanceof Error) {
         res.status(400).json({ error: error.message });
@@ -134,11 +132,10 @@ export class MaterialController {
       const result = await this.deleteMaterialUseCase.execute(materialId);
 
       if (typeof result === 'string') {
-        res.status(404).json({error: result})
+        res.status(404).json({ error: result });
       } else {
         res.status(200).json(this.materialSerializer.serialize(result));
       }
-
     } catch (error) {
       if (error instanceof Error) {
         res.status(400).json({ error: error.message });

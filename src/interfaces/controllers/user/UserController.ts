@@ -57,10 +57,10 @@ export class UserController {
 
   async findUserById(req: Request, res: Response): Promise<void> {
     try {
-        const { id } = req.params
-        const userId = parseInt(id)
-        const user = await this.findUserByIdUseCase.execute(userId)
-        user? res.status(200).json(this.userSerializer.serialize(user)) : null;
+      const { id } = req.params;
+      const userId = parseInt(id);
+      const user = await this.findUserByIdUseCase.execute(userId);
+      user ? res.status(200).json(this.userSerializer.serialize(user)) : null;
     } catch (error) {
       if (error instanceof Error) {
         res.status(400).json({ error: error.message });
@@ -89,17 +89,17 @@ export class UserController {
 
   async deleteUser(req: Request, res: Response): Promise<void> {
     try {
-        const { id } = req.params;
-        const userId = parseInt(id)
-        const user = await this.deleteUserUseCase.execute(userId);
-  
-        res.status(200).json(this.userSerializer.serialize(user));
+      const { id } = req.params;
+      const userId = parseInt(id);
+      const user = await this.deleteUserUseCase.execute(userId);
+
+      res.status(200).json(this.userSerializer.serialize(user));
     } catch (error) {
-        if (error instanceof Error) {
-            res.status(400).json({ error: error.message });
-          } else {
-            res.status(500).json({ error: 'Internal server error' });
-          }
+      if (error instanceof Error) {
+        res.status(400).json({ error: error.message });
+      } else {
+        res.status(500).json({ error: 'Internal server error' });
+      }
     }
   }
 }

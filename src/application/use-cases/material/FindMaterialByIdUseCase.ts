@@ -14,7 +14,7 @@ export class FindMaterialByIdUseCase {
         logger.warn(errorMessage);
         throw new NotFoundError('Material', errorCode);
       }
-      
+
       logger.info('Material was found id =', { materialId: findMaterialById.id });
       return findMaterialById;
     } catch (error) {

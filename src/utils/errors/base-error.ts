@@ -5,7 +5,7 @@ export class AppError extends Error {
   constructor(
     message: string,
     public statusCode: number,
-    public errorCode: string
+    public errorCode: string,
   ) {
     super(message);
     this.name = this.constructor.name;
