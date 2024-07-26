@@ -28,22 +28,29 @@ export function createApp(prisma: PrismaClient) {
   app.use(express.json());
   app.use(httpLogger);
   app.use(rateLimitMiddleware);
-  
 
-  app.use('/api-docs/materials', swaggerUi.serve, swaggerUi.setup(materialSpecs, {
-    explorer: true,
-    swaggerOptions: {
-      url: '/api-docs/materials/swagger.json',
-    },
-  }));
+  app.use(
+    '/api-docs/materials',
+    swaggerUi.serve,
+    swaggerUi.setup(materialSpecs, {
+      explorer: true,
+      swaggerOptions: {
+        url: '/api-docs/materials/swagger.json',
+      },
+    }),
+  );
 
   // Swagger UI for Users
-  app.use('/api-docs/users', swaggerUi.serve, swaggerUi.setup(userSpecs, {
-    explorer: true,
-    swaggerOptions: {
-      url: '/api-docs/users/swagger.json',
-    },
-  }));
+  app.use(
+    '/api-docs/users',
+    swaggerUi.serve,
+    swaggerUi.setup(userSpecs, {
+      explorer: true,
+      swaggerOptions: {
+        url: '/api-docs/users/swagger.json',
+      },
+    }),
+  );
 
   // Serve Swagger JSON
   app.get('/api-docs/materials/swagger.json', (req, res) => res.json(materialSpecs));

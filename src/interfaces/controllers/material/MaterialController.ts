@@ -28,7 +28,7 @@ export class MaterialController {
       const result = await this.createMaterialUseCase.execute(createMaterialDto);
       res.status(201).json(this.materialSerializer.serialize(result));
     } catch (error: unknown) {
-      handleError(res, error)
+      handleError(res, error);
     }
   }
 
@@ -50,7 +50,7 @@ export class MaterialController {
         totalPages: paginatedResult.totalPages,
       });
     } catch (error) {
-      handleError(res, error)
+      handleError(res, error);
     }
   }
 
@@ -60,29 +60,29 @@ export class MaterialController {
       const result = await this.findMaterialByIdUseCase.execute(materialId);
       res.status(200).json(this.materialSerializer.serialize(result));
     } catch (error) {
-      handleError(res,error)
+      handleError(res, error);
     }
   }
 
   async updateMaterial(req: Request, res: Response): Promise<void> {
     try {
-      const materialId = validateId(req.params.id)
+      const materialId = validateId(req.params.id);
       const updateMaterialDto = plainToClass(UpdateMaterialDto, req.body);
       await validateDto(updateMaterialDto);
       const result = await this.updateMaterialUseCase.execute(materialId, updateMaterialDto);
       res.status(200).json(this.materialSerializer.serialize(result));
     } catch (error) {
-      handleError(res, error)
+      handleError(res, error);
     }
   }
 
   async deleteMaterial(req: Request, res: Response): Promise<void> {
     try {
-      const materialId = validateId(req.params.id)
+      const materialId = validateId(req.params.id);
       const result = await this.deleteMaterialUseCase.execute(materialId);
       res.status(200).json(this.materialSerializer.serialize(result));
     } catch (error) {
-      handleError(res, error)
+      handleError(res, error);
     }
   }
 }

@@ -36,7 +36,7 @@ export class FindMaterialsUseCase {
         totalPages: result.totalPages,
         totalItems: result.total,
       });
-      
+
       return result;
     } catch (error) {
       const errorCode = ERROR_CODES.OP_004;

@@ -5,7 +5,7 @@ export class AppError<T = undefined> extends Error {
     message: string,
     public statusCode: number,
     public errorCode: string,
-    public details?: T
+    public details?: T,
   ) {
     super(message);
     this.name = this.constructor.name;
@@ -14,7 +14,10 @@ export class AppError<T = undefined> extends Error {
 }
 
 export class ValidationError extends AppError {
-  constructor(message: string, public validationErrors?: Record<string, unknown>[]) {
+  constructor(
+    message: string,
+    public validationErrors?: Record<string, unknown>[],
+  ) {
     super(message, 400, ERROR_CODES.VAL_001);
     this.validationErrors = validationErrors;
   }

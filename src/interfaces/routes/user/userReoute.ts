@@ -309,7 +309,7 @@ export function createUserRoutes(userController: UserController) {
    *         department:
    *           type: string
    *           description: The updated department of the user
-  *         role:
+   *         role:
    *           type: string
    *           description: The updated role of the user
    *

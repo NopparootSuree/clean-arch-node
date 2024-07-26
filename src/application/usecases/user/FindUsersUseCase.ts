@@ -20,7 +20,7 @@ export class FindUsersUseCase {
   constructor(private userRepository: UserRepository) {}
 
   async execute(options: PaginationOptions): Promise<PaginatedResult<User>> {
-    try { 
+    try {
       const { page, limit } = options;
       const result = await this.userRepository.findAll({ page, limit });
       logger.info('Users found', {

@@ -13,7 +13,7 @@ export class FindUserByIdUseCase {
         const errorMessage = 'User not found';
         logger.warn(errorMessage);
         throw new NotFoundError('User', errorCode);
-      } 
+      }
 
       logger.info('User was found', { userId: findUserById.id });
       return findUserById;

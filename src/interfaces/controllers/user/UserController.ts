@@ -78,11 +78,11 @@ export class UserController {
 
   async deleteUser(req: Request, res: Response): Promise<void> {
     try {
-      const userId = validateId(req.params.id)
+      const userId = validateId(req.params.id);
       const user = await this.deleteUserUseCase.execute(userId);
       res.status(200).json(this.userSerializer.serialize(user));
     } catch (error) {
-      handleError(res, error)
+      handleError(res, error);
     }
   }
 }
