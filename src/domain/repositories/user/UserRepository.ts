@@ -1,6 +1,6 @@
 import { User } from '@domain/entities/user/User';
 import { Transaction } from '@infrastructure/database/Transaction';
-import { PaginatedResult } from '@application/use-cases/material/FindMaterialsUseCase';
+import { PaginatedResult } from '@application/usecases/material/FindMaterialsUseCase';
 
 export interface UserRepository {
   findAll(options: { page: number; limit: number }): Promise<PaginatedResult<User>>;

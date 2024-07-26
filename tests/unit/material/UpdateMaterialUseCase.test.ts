@@ -2,7 +2,7 @@ import { Material } from '@domain/entities/material/Material';
 import { MaterialRepository } from '@domain/repositories/material/MaterialRepository';
 import { TransactionManager } from '@infrastructure/database/TransactionManager';
 import { UpdateMaterialDto } from '@application/dtos/material/UpdateMaterialDto';
-import { UpdateMaterialUseCase } from '@application/use-cases/material/UpdateMaterialUseCase';
+import { UpdateMaterialUseCase } from '@application/usecases/material/UpdateMaterialUseCase';
 import { validate } from 'class-validator';
 import { plainToClass } from 'class-transformer';
 import { logger } from '@utils/logger';

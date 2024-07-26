@@ -1,6 +1,6 @@
 import { Material } from '@domain/entities/material/Material';
 import { MaterialRepository } from '@domain/repositories/material/MaterialRepository';
-import { FindMaterialByIdUseCase } from '@application/use-cases/material/FindMaterialByIdUseCase';
+import { FindMaterialByIdUseCase } from '@application/usecases/material/FindMaterialByIdUseCase';
 import { logger } from '@utils/logger';
 
 jest.mock('@utils/logger', () => ({

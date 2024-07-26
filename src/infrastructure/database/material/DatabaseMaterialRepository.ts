@@ -2,7 +2,7 @@ import { PrismaClient } from '@prisma/client';
 import { Material } from '@domain/entities/material/Material';
 import { MaterialRepository } from '@domain/repositories/material/MaterialRepository';
 import { Transaction } from '../Transaction';
-import { PaginatedResult } from '@application/use-cases/material/FindMaterialsUseCase';
+import { PaginatedResult } from '@application/usecases/material/FindMaterialsUseCase';
 
 export class DatabaseMaterialRepository implements MaterialRepository {
   constructor(private prisma: PrismaClient) {}

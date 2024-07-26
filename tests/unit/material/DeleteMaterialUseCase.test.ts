@@ -1,7 +1,7 @@
 import { Material } from '@domain/entities/material/Material';
 import { MaterialRepository } from '@domain/repositories/material/MaterialRepository';
 import { TransactionManager } from '@infrastructure/database/TransactionManager';
-import { DeleteMaterialUseCase } from '@application/use-cases/material/DeleteMaterialUseCase';
+import { DeleteMaterialUseCase } from '@application/usecases/material/DeleteMaterialUseCase';
 import { logger } from '@utils/logger';
 
 jest.mock('@utils/logger', () => ({

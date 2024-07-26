@@ -1,4 +1,4 @@
-import { PaginatedResult } from '@application/use-cases/material/FindMaterialsUseCase';
+import { PaginatedResult } from '@application/usecases/material/FindMaterialsUseCase';
 import { User } from '@domain/entities/user/User';
 import { UserRepository } from '@domain/repositories/user/UserRepository';
 import { PrismaClient } from '@prisma/client';

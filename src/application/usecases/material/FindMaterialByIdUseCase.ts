@@ -15,7 +15,7 @@ export class FindMaterialByIdUseCase {
         throw new NotFoundError('Material', errorCode);
       }
 
-      logger.info('Material was found id =', { materialId: findMaterialById.id });
+      logger.info('Material was found', { materialId: findMaterialById.id });
       return findMaterialById;
     } catch (error) {
       const errorCode = ERROR_CODES.OP_004;

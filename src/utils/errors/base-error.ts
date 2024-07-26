@@ -1,11 +1,11 @@
-import { ValidationError as ClassValidatorError } from 'class-validator';
-import { ERROR_CODES } from './error-codes'; // ต้องแน่ใจว่าได้สร้างไฟล์นี้และกำหนด ERROR_CODES ไว้
+import { ERROR_CODES } from './error-codes';
 
-export class AppError extends Error {
+export class AppError<T = undefined> extends Error {
   constructor(
     message: string,
     public statusCode: number,
     public errorCode: string,
+    public details?: T
   ) {
     super(message);
     this.name = this.constructor.name;
@@ -14,15 +14,15 @@ export class AppError extends Error {
 }
 
 export class ValidationError extends AppError {
-  constructor(public errors: ClassValidatorError[]) {
-    super('Validation failed', 400, ERROR_CODES.VAL_001);
-    this.errors = errors;
+  constructor(message: string, public validationErrors?: Record<string, unknown>[]) {
+    super(message, 400, ERROR_CODES.VAL_001);
+    this.validationErrors = validationErrors;
   }
 }
 
-export class NotFoundError extends AppError {
+export class NotFoundError extends AppError<{ resource: string }> {
   constructor(resource: string, errorCode: string = ERROR_CODES.NF_001) {
-    super(`${resource} not found`, 404, errorCode);
+    super(`${resource} not found`, 404, errorCode, { resource });
   }
 }
 
@@ -44,9 +44,9 @@ export class ConflictError extends AppError {
   }
 }
 
-export class DatabaseError extends AppError {
-  constructor(message: string = 'Database operation failed', errorCode: string = ERROR_CODES.DB_002) {
-    super(message, 500, errorCode);
+export class DatabaseError extends AppError<{ operation?: string }> {
+  constructor(message: string = 'Database operation failed', errorCode: string = ERROR_CODES.DB_002, operation?: string) {
+    super(message, 500, errorCode, operation ? { operation } : undefined);
   }
 }
 
