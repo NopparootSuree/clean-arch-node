@@ -11,7 +11,7 @@ import { createMaterialRoutes } from './interfaces/routes/material/materialRoute
 import { createUserRoutes } from '@interfaces/routes/user/userReoute';
 
 // Middleware
-import { rateLimitMiddleware, errorHandler } from '@infrastructure/security/rateLimitMiddleware';
+import { rateLimitMiddleware, serverErrorHandler } from '@infrastructure/security/rateLimitMiddleware';
 import { httpLogger } from '@utils/logger';
 
 // Swagger
@@ -70,7 +70,7 @@ export function createApp(prisma: PrismaClient) {
   app.use('/api/users', createUserRoutes(userController));
 
   // Error handling middleware
-  app.use(errorHandler);
+  app.use(serverErrorHandler);
 
   return app;
 }

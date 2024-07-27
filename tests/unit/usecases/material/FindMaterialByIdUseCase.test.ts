@@ -1,14 +1,9 @@
 import { Material } from '@domain/entities/material/Material';
 import { MaterialRepository } from '@domain/repositories/material/MaterialRepository';
 import { FindMaterialByIdUseCase } from '@application/usecases/material/FindMaterialByIdUseCase';
-import { logger } from '@utils/logger';
+import { DatabaseError, NotFoundError } from '@utils/errors';
 
-jest.mock('@utils/logger', () => ({
-  logger: {
-    info: jest.fn(),
-    error: jest.fn(),
-  },
-}));
+jest.mock('@domain/repositories/material/MaterialRepository');
 
 describe('FindMaterialByIdUseCase', () => {
   let findMaterialByIdUseCase: FindMaterialByIdUseCase;
@@ -20,15 +15,13 @@ describe('FindMaterialByIdUseCase', () => {
     } as unknown as jest.Mocked<MaterialRepository>;
 
     findMaterialByIdUseCase = new FindMaterialByIdUseCase(mockMaterialRepository);
-
-    (logger.info as jest.Mock).mockClear();
-    (logger.error as jest.Mock).mockClear();
   });
 
   it('should find an existing material by id', async () => {
     const materialId = 1;
+
     const material: Material = {
-      id: materialId,
+      id: 1,
       name: 'Material',
       description: 'Description',
       quantity: 20,
@@ -44,23 +37,30 @@ describe('FindMaterialByIdUseCase', () => {
 
     expect(mockMaterialRepository.findById).toHaveBeenCalledWith(materialId);
     expect(result).toEqual(material);
-    expect(logger.info).toHaveBeenCalledWith(`Material was found id = ${materialId}`);
   });
 
   it('should throw an error when material is not found', async () => {
-    const materialId = 999;
+    const materialId = 1;
     mockMaterialRepository.findById.mockResolvedValue(null);
 
-    await expect(findMaterialByIdUseCase.execute(materialId)).rejects.toThrow('Material not found');
-    expect(logger.error).toHaveBeenCalledWith('Material not found');
+    await expect(findMaterialByIdUseCase.execute(materialId)).rejects.toThrow(NotFoundError);
+    expect(mockMaterialRepository.findById).toHaveBeenCalledWith(materialId);
   });
 
-  it('should throw an error when repository throws an error', async () => {
+  it('should throw DatabaseError when repository throws an error', async () => {
     const materialId = 1;
-    const error = new Error('Failed to find by id material');
-    mockMaterialRepository.findById.mockRejectedValue(error);
+    mockMaterialRepository.findById.mockRejectedValue(new Error('Database error'));
 
-    await expect(findMaterialByIdUseCase.execute(materialId)).rejects.toThrow('Failed to find by id material');
-    expect(logger.error).toHaveBeenCalledWith('Failed to find by id material');
+    await expect(findMaterialByIdUseCase.execute(materialId)).rejects.toThrow(DatabaseError);
+    expect(mockMaterialRepository.findById).toHaveBeenCalledWith(materialId);
+  });
+
+  it('should handle and rethrow other unexpected errors as DatabaseError', async () => {
+    const materialId = 1;
+    const unexpectedError = new Error('Unexpected error');
+    mockMaterialRepository.findById.mockRejectedValue(unexpectedError);
+
+    await expect(findMaterialByIdUseCase.execute(materialId)).rejects.toThrow(DatabaseError);
+    expect(mockMaterialRepository.findById).toHaveBeenCalledWith(materialId);
   });
 });

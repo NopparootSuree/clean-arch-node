@@ -1,15 +1,9 @@
 import { Material } from '@domain/entities/material/Material';
 import { MaterialRepository } from '@domain/repositories/material/MaterialRepository';
 import { FindMaterialsUseCase, PaginationOptions, PaginatedResult } from '@application/usecases/material/FindMaterialsUseCase';
-import { logger } from '@utils/logger';
+import { DatabaseError, NotFoundError } from '@utils/errors';
 
-jest.useFakeTimers();
-jest.mock('@utils/logger', () => ({
-  logger: {
-    info: jest.fn(),
-    error: jest.fn(),
-  },
-}));
+jest.mock('@domain/repositories/material/MaterialRepository');
 
 describe('FindMaterialsUseCase', () => {
   let findMaterialsUseCase: FindMaterialsUseCase;
@@ -17,43 +11,18 @@ describe('FindMaterialsUseCase', () => {
 
   beforeEach(() => {
     mockMaterialRepository = {
-      create: jest.fn(),
-      findById: jest.fn(),
-      update: jest.fn(),
-      delete: jest.fn(),
       findAll: jest.fn(),
       count: jest.fn(),
-    } as jest.Mocked<MaterialRepository>;
+    } as unknown as jest.Mocked<MaterialRepository>;
 
     findMaterialsUseCase = new FindMaterialsUseCase(mockMaterialRepository);
-
-    (logger.info as jest.Mock).mockClear();
-    (logger.error as jest.Mock).mockClear();
   });
 
   it('should find materials successfully with pagination', async () => {
     const paginationOptions: PaginationOptions = { page: 1, limit: 10 };
     const materials: Material[] = [
-      {
-        id: 1,
-        name: 'Material1',
-        description: 'Description1',
-        quantity: 20,
-        unit: 'kg',
-        createdAt: new Date('2022-02-25'),
-        updatedAt: null,
-        deletedAt: null,
-      },
-      {
-        id: 2,
-        name: 'Material2',
-        description: 'Description2',
-        quantity: 30,
-        unit: 'l',
-        createdAt: new Date('2022-02-26'),
-        updatedAt: null,
-        deletedAt: null,
-      },
+      new Material(1, 'Material1', 'Description1', 20, 'kg', new Date('2022-02-25'), null, null),
+      new Material(2, 'Material2', 'Description2', 30, 'l', new Date('2022-02-26'), null, null),
     ];
 
     const paginatedResult: PaginatedResult<Material> = {
@@ -70,7 +39,6 @@ describe('FindMaterialsUseCase', () => {
 
     expect(mockMaterialRepository.findAll).toHaveBeenCalledWith(paginationOptions);
     expect(result).toEqual(paginatedResult);
-    expect(logger.info).toHaveBeenCalledWith('Materials found. Page 1 of 1');
   });
 
   it('should return an empty array when no materials are found', async () => {
@@ -85,19 +53,15 @@ describe('FindMaterialsUseCase', () => {
 
     mockMaterialRepository.findAll.mockResolvedValue(emptyPaginatedResult);
 
-    const result = await findMaterialsUseCase.execute(paginationOptions);
-
+    await expect(findMaterialsUseCase.execute(paginationOptions)).rejects.toThrow(NotFoundError);
     expect(mockMaterialRepository.findAll).toHaveBeenCalledWith(paginationOptions);
-    expect(result).toEqual(emptyPaginatedResult);
-    expect(logger.info).toHaveBeenCalledWith('Materials found. Page 1 of 0');
   });
 
-  it('should throw an error when repository throws an error', async () => {
+  it('should throw DatabaseError when repository throws an error', async () => {
     const paginationOptions: PaginationOptions = { page: 1, limit: 10 };
     const error = new Error('Database error');
     mockMaterialRepository.findAll.mockRejectedValue(error);
 
-    await expect(findMaterialsUseCase.execute(paginationOptions)).rejects.toThrow('Failed to find materials');
-    expect(logger.error).toHaveBeenCalledWith('Failed to find materials', error);
+    await expect(findMaterialsUseCase.execute(paginationOptions)).rejects.toThrow(DatabaseError);
   });
 });

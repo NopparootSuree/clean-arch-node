@@ -27,14 +27,18 @@ export class DeleteMaterialUseCase {
       logger.info(`Material deleted successfully`, { materialId: deletedMaterial.id });
       return deletedMaterial;
     } catch (error) {
-      const errorCode = ERROR_CODES.OP_003;
-      const errorMessage = 'Failed to delete material';
-      logger.error(errorMessage, {
-        code: errorCode,
-        resourceId: id,
-        errorDetails: error instanceof Error ? error.message : 'Unknown error',
-      });
-      throw new DatabaseError(errorMessage, errorCode);
+      if (error instanceof NotFoundError) {
+        throw error;
+      } else {
+        const errorCode = ERROR_CODES.OP_003;
+        const errorMessage = 'Failed to delete material';
+        logger.error(errorMessage, {
+          code: errorCode,
+          resourceId: id,
+          errorDetails: error instanceof Error ? error.message : 'Unknown error',
+        });
+        throw new DatabaseError(errorMessage, errorCode);
+      }
     }
   }
 }

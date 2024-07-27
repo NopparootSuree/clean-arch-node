@@ -1,10 +1,8 @@
 import { config } from '@configs/config';
 import { Request, Response, NextFunction } from 'express';
-import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 
 export const rateLimitMiddleware = [
-  helmet(),
   rateLimit({
     windowMs: config.rateLimit.windowMs,
     max: config.rateLimit.max,
@@ -16,7 +14,7 @@ export const rateLimitMiddleware = [
   }),
 ];
 
-export function errorHandler(err: Error, req: Request, res: Response, next: NextFunction) {
+export function serverErrorHandler(err: Error, req: Request, res: Response, next: NextFunction) {
   console.error(err.stack);
   res.status(500).json({ error: 'Something went wrong' });
   next();

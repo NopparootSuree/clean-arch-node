@@ -3,7 +3,7 @@ module.exports = {
   testEnvironment: 'node',
   testTimeout: 30000,
   roots: ['<rootDir>/src', '<rootDir>/tests'],
-  testMatch: ['**/unit/**/*.+(ts|tsx|js)', '**/?(*.)+(spec|test).+(ts|tsx|js)'],
+  testMatch: ['**/unit/**/**/*.+(ts|tsx|js)', '**/?(*.)+(spec|test).+(ts|tsx|js)'],
   transform: {
     '^.+\\.(ts|tsx)$': 'ts-jest',
   },
