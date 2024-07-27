@@ -20,17 +20,18 @@ describe('DeleteMaterialUseCase', () => {
       findById: jest.fn(),
       delete: jest.fn(),
     } as unknown as jest.Mocked<MaterialRepository>;
-    
+
     mockTransaction = {} as unknown as jest.Mocked<Transaction>;
-    
+
     mockTransactionManager = {
       runInTransaction: jest.fn(),
     } as unknown as jest.Mocked<TransactionManager>;
 
-    deleteMaterialUseCase = new DeleteMaterialUseCase(
-      mockMaterialRepository,
-      mockTransactionManager
-    );
+    deleteMaterialUseCase = new DeleteMaterialUseCase(mockMaterialRepository, mockTransactionManager);
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
   it('should delete a material successfully', async () => {
@@ -86,5 +87,9 @@ describe('DeleteMaterialUseCase', () => {
     expect(mockMaterialRepository.findById).toHaveBeenCalledWith(materialId);
     expect(mockTransactionManager.runInTransaction).toHaveBeenCalled();
     expect(mockMaterialRepository.delete).toHaveBeenCalled();
+  });
+
+  afterAll(() => {
+    jest.restoreAllMocks();
   });
 });

@@ -13,7 +13,7 @@ export function createUserRoutes(userController: UserController) {
 
   /**
    * @swagger
-   *   /:
+   *   /api/users:
    *     post:
    *       summary: Create a new user
    *       description: Creates a new user with the provided information
@@ -48,7 +48,7 @@ export function createUserRoutes(userController: UserController) {
 
   /**
    * @swagger
-   *   /:
+   *   /api/users:
    *     get:
    *       summary: Get paginated list of users
    *       description: Retrieves a paginated list of users
@@ -110,7 +110,7 @@ export function createUserRoutes(userController: UserController) {
 
   /**
    * @swagger
-   *   /{id}:
+   *   /api/users/{id}:
    *     get:
    *       summary: Get a user by ID
    *       description: Retrieves a specific user by their ID
@@ -142,7 +142,7 @@ export function createUserRoutes(userController: UserController) {
 
   /**
    * @swagger
-   *   /{id}:
+   *   /api/users/{id}:
    *     put:
    *       summary: Update a user
    *       description: Updates an existing user with the provided information
@@ -186,7 +186,7 @@ export function createUserRoutes(userController: UserController) {
 
   /**
    * @swagger
-   *   /{id}:
+   *   /api/users/{id}:
    *     delete:
    *       summary: Delete a user
    *       description: Deletes a specific user by their ID

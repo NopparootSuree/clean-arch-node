@@ -12,15 +12,11 @@ export class UpdateUserUseCase {
   ) {}
 
   async execute(id: number, userData: UpdateUserDto): Promise<User> {
-    const findUserById = await this.userRepository.findById(id);
-    if (!findUserById) {
-      const errorCode = ERROR_CODES.NF_001;
-      const errorMessage = 'User not found';
-      logger.warn(errorMessage);
-      throw new NotFoundError('User', errorCode);
-    }
-
     try {
+      const findUserById = await this.userRepository.findById(id);
+      if (!findUserById) {
+        throw new NotFoundError('User', ERROR_CODES.NF_001);
+      }
       const updatedUser = await this.transactionManager.runInTransaction(async (transaction) => {
         const user = new User(
           findUserById.id,
@@ -40,13 +36,20 @@ export class UpdateUserUseCase {
       logger.info('User updated successfully', { userId: updatedUser.id });
       return updatedUser;
     } catch (error) {
-      const errorCode = ERROR_CODES.OP_002;
-      const errorMessage = 'Failed to update user';
-      logger.error(errorMessage, {
-        code: errorCode,
-        errorDetails: error instanceof Error ? error.message : 'Unknown error',
-      });
-      throw new DatabaseError(errorMessage, errorCode);
+      if (error instanceof NotFoundError) {
+        const errorCode = ERROR_CODES.NF_001;
+        const errorMessage = 'User not found';
+        logger.warn(errorMessage);
+        throw new NotFoundError('User', errorCode);
+      } else {
+        const errorCode = ERROR_CODES.OP_002;
+        const errorMessage = 'Failed to update user';
+        logger.error(errorMessage, {
+          code: errorCode,
+          errorDetails: error instanceof Error ? error.message : 'Unknown error',
+        });
+        throw new DatabaseError(errorMessage, errorCode);
+      }
     }
   }
 }

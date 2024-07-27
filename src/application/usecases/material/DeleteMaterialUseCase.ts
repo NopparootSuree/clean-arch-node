@@ -12,8 +12,8 @@ export class DeleteMaterialUseCase {
 
   async execute(id: number): Promise<Material> {
     const material = await this.materialRepository.findById(id);
-    if (material === null || material.deletedAt !== null) {
-      const errorMessage = 'Material not found or already deleted';
+    if (!material) {
+      const errorMessage = 'Material not found';
       logger.warn(errorMessage, { materialId: id });
       throw new NotFoundError('Material', ERROR_CODES.NF_001);
     }

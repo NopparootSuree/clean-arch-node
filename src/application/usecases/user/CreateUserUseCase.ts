@@ -14,7 +14,7 @@ export class CreateUserUseCase {
   async execute(userData: CreateUserDto): Promise<User> {
     try {
       const createdUser = await this.transactionManager.runInTransaction(async (transaction) => {
-        const user = new User(0, userData.username, userData.firstName, userData.lastName, userData.phone ?? null, userData.department ?? null, new Date(), new Date(), null, userData.role);
+        const user = new User(0, userData.username, userData.firstName, userData.lastName, userData.phone ?? null, userData.department ?? null, new Date(), null, null, userData.role);
         return await this.userRepository.create(user, transaction);
       });
 

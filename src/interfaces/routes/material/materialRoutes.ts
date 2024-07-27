@@ -13,7 +13,7 @@ export function createMaterialRoutes(materialController: MaterialController) {
 
   /**
    * @swagger
-   *   /:
+   *   /api/materials:
    *     post:
    *       summary: Create a new material
    *       description: Creates a new material with the provided information
@@ -48,7 +48,7 @@ export function createMaterialRoutes(materialController: MaterialController) {
 
   /**
    * @swagger
-   *   /:
+   *   /api/materials:
    *     get:
    *       summary: Get paginated list of materials
    *       description: Retrieves a paginated list of materials
@@ -110,7 +110,7 @@ export function createMaterialRoutes(materialController: MaterialController) {
 
   /**
    * @swagger
-   *   /{id}:
+   *   /api/materials/{id}:
    *     get:
    *       summary: Get a material by ID
    *       description: Retrieves a specific material by its ID
@@ -142,7 +142,7 @@ export function createMaterialRoutes(materialController: MaterialController) {
 
   /**
    * @swagger
-   *   /{id}:
+   *   /api/materials/{id}:
    *     put:
    *       summary: Update a material
    *       description: Updates an existing material with the provided information
@@ -186,7 +186,7 @@ export function createMaterialRoutes(materialController: MaterialController) {
 
   /**
    * @swagger
-   *   /{id}:
+   *   /api/materials/{id}:
    *     delete:
    *       summary: Delete a material
    *       description: Deletes a specific material by its ID

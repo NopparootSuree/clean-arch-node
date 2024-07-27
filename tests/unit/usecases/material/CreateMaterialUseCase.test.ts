@@ -20,17 +20,18 @@ describe('CreateMaterialUseCase', () => {
     mockMaterialRepository = {
       create: jest.fn(),
     } as unknown as jest.Mocked<MaterialRepository>;
-    
+
     mockTransaction = {} as unknown as jest.Mocked<Transaction>;
-    
+
     mockTransactionManager = {
       runInTransaction: jest.fn(),
     } as unknown as jest.Mocked<TransactionManager>;
 
-    createMaterialUseCase = new CreateMaterialUseCase(
-      mockMaterialRepository,
-      mockTransactionManager
-    );
+    createMaterialUseCase = new CreateMaterialUseCase(mockMaterialRepository, mockTransactionManager);
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
   it('should create a material successfully', async () => {
@@ -38,19 +39,10 @@ describe('CreateMaterialUseCase', () => {
       name: 'Test Material',
       description: 'Test Description',
       quantity: 10,
-      unit: 'pcs'
+      unit: 'pcs',
     };
 
-    const createdMaterial = new Material(
-      1,
-      materialDto.name,
-      materialDto.description || null,
-      materialDto.quantity,
-      materialDto.unit,
-      new Date(),
-      null,
-      null
-    );
+    const createdMaterial = new Material(1, materialDto.name, materialDto.description || null, materialDto.quantity, materialDto.unit, new Date(), null, null);
 
     mockTransactionManager.runInTransaction.mockImplementation(async (callback) => {
       return callback(mockTransaction);
@@ -69,7 +61,7 @@ describe('CreateMaterialUseCase', () => {
         quantity: materialDto.quantity,
         unit: materialDto.unit,
       }),
-      mockTransaction
+      mockTransaction,
     );
   });
 
@@ -77,19 +69,10 @@ describe('CreateMaterialUseCase', () => {
     const materialDto: CreateMaterialDto = {
       name: 'Test Material',
       quantity: 10,
-      unit: 'pcs'
+      unit: 'pcs',
     };
 
-    const createdMaterial = new Material(
-      1,
-      materialDto.name,
-      null,
-      materialDto.quantity,
-      materialDto.unit,
-      new Date(),
-      null,
-      null
-    );
+    const createdMaterial = new Material(1, materialDto.name, null, materialDto.quantity, materialDto.unit, new Date(), null, null);
 
     mockTransactionManager.runInTransaction.mockImplementation(async (callback) => {
       return callback(mockTransaction);
@@ -108,7 +91,7 @@ describe('CreateMaterialUseCase', () => {
         quantity: materialDto.quantity,
         unit: materialDto.unit,
       }),
-      mockTransaction
+      mockTransaction,
     );
   });
 
@@ -117,7 +100,7 @@ describe('CreateMaterialUseCase', () => {
       name: 'Test Material',
       description: 'Test Description',
       quantity: 10,
-      unit: 'pcs'
+      unit: 'pcs',
     };
 
     mockTransactionManager.runInTransaction.mockRejectedValue(new Error('DB error'));
@@ -130,9 +113,9 @@ describe('CreateMaterialUseCase', () => {
     const materialDto: CreateMaterialDto = {
       name: 'Test Material',
       quantity: -1,
-      unit: 'pcs'
+      unit: 'pcs',
     };
-  
+
     await expect(createMaterialUseCase.execute(materialDto)).rejects.toThrow();
   });
 
@@ -140,9 +123,9 @@ describe('CreateMaterialUseCase', () => {
     const materialDto: CreateMaterialDto = {
       name: '',
       quantity: 10,
-      unit: 'pcs'
+      unit: 'pcs',
     };
-  
+
     await expect(createMaterialUseCase.execute(materialDto)).rejects.toThrow();
   });
 
@@ -150,16 +133,20 @@ describe('CreateMaterialUseCase', () => {
     const materialDto: CreateMaterialDto = {
       name: 'Test Material',
       quantity: 10,
-      unit: 'pcs'
+      unit: 'pcs',
     };
-  
+
     mockTransactionManager.runInTransaction.mockImplementation(async (callback) => {
       return callback(mockTransaction);
     });
-  
+
     mockMaterialRepository.create.mockRejectedValue(new Error('Repository error'));
-  
+
     await expect(createMaterialUseCase.execute(materialDto)).rejects.toThrow(DatabaseError);
     expect(mockMaterialRepository.create).toHaveBeenCalled();
+  });
+
+  afterAll(() => {
+    jest.restoreAllMocks();
   });
 });

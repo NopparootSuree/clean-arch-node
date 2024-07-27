@@ -23,6 +23,10 @@ describe('UpdateMaterialUseCase', () => {
     updateMaterialUseCase = new UpdateMaterialUseCase(mockMaterialRepository, mockTransactionManager);
   });
 
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('should update an existing material successfully', async () => {
     const materialId = 1;
     const dto: UpdateMaterialDto = {
@@ -74,5 +78,9 @@ describe('UpdateMaterialUseCase', () => {
     mockMaterialRepository.update.mockRejectedValue(new Error('Database error'));
 
     await expect(updateMaterialUseCase.execute(id, dto)).rejects.toThrow(DatabaseError);
+  });
+
+  afterAll(() => {
+    jest.restoreAllMocks();
   });
 });

@@ -20,10 +20,15 @@ export const logger = pino(
 
 // เพิ่มฟังก์ชันสำหรับ cleanup
 export async function closeLogger() {
-  await new Promise<void>((resolve) => {
-    transport.on('close', resolve);
-    transport.end();
-  });
+  if (transport) {
+    await new Promise<void>((resolve) => {
+      transport.on('close', resolve);
+      transport.end();
+    });
+  }
+  if (logger) {
+    await logger.flush();
+  }
 }
 
 function colorStatusCode(statusCode: number): string {

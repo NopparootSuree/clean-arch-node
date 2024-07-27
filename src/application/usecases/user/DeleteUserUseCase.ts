@@ -13,10 +13,9 @@ export class DeleteUserUseCase {
   async execute(id: number): Promise<User> {
     const user = await this.userRepository.findById(id);
     if (!user) {
-      const errorCode = ERROR_CODES.NF_001;
       const errorMessage = 'User not found';
       logger.warn(errorMessage);
-      throw new NotFoundError('User', errorCode);
+      throw new NotFoundError('User', ERROR_CODES.NF_001);
     }
 
     try {
@@ -28,13 +27,17 @@ export class DeleteUserUseCase {
       logger.info('User deleted successfully', { userId: deletedUser.id });
       return deletedUser;
     } catch (error) {
-      const errorCode = ERROR_CODES.OP_003;
-      const errorMessage = 'Failed to delete user';
-      logger.error(errorMessage, {
-        code: errorCode,
-        errorDetails: error instanceof Error ? error.message : 'Unknown error',
-      });
-      throw new DatabaseError(errorMessage, errorCode);
+      if (error instanceof NotFoundError) {
+        throw error;
+      } else {
+        const errorCode = ERROR_CODES.OP_003;
+        const errorMessage = 'Failed to delete user';
+        logger.error(errorMessage, {
+          code: errorCode,
+          errorDetails: error instanceof Error ? error.message : 'Unknown error',
+        });
+        throw new DatabaseError(errorMessage, errorCode);
+      }
     }
   }
 }

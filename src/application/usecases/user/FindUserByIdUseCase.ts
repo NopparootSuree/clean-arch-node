@@ -9,22 +9,26 @@ export class FindUserByIdUseCase {
     try {
       const findUserById = await this.userRepository.findById(id);
       if (!findUserById) {
-        const errorCode = ERROR_CODES.NF_001;
-        const errorMessage = 'User not found';
-        logger.warn(errorMessage);
-        throw new NotFoundError('User', errorCode);
+        throw new NotFoundError('User', ERROR_CODES.NF_001);
       }
 
       logger.info('User was found', { userId: findUserById.id });
       return findUserById;
     } catch (error) {
-      const errorCode = ERROR_CODES.OP_004;
-      const errorMessage = 'Failed to retreive user';
-      logger.error(errorMessage, {
-        code: errorCode,
-        errorDetails: error instanceof Error ? error.message : 'Unknown error',
-      });
-      throw new DatabaseError(errorMessage, errorCode);
+      if (error instanceof NotFoundError) {
+        const errorCode = ERROR_CODES.NF_001;
+        const errorMessage = 'User not found';
+        logger.warn(errorMessage);
+        throw new NotFoundError('User', errorCode);
+      } else {
+        const errorCode = ERROR_CODES.OP_004;
+        const errorMessage = 'Failed to retreive user';
+        logger.error(errorMessage, {
+          code: errorCode,
+          errorDetails: error instanceof Error ? error.message : 'Unknown error',
+        });
+        throw new DatabaseError(errorMessage, errorCode);
+      }
     }
   }
 }

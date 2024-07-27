@@ -17,6 +17,10 @@ describe('FindMaterialByIdUseCase', () => {
     findMaterialByIdUseCase = new FindMaterialByIdUseCase(mockMaterialRepository);
   });
 
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('should find an existing material by id', async () => {
     const materialId = 1;
 
@@ -62,5 +66,9 @@ describe('FindMaterialByIdUseCase', () => {
 
     await expect(findMaterialByIdUseCase.execute(materialId)).rejects.toThrow(DatabaseError);
     expect(mockMaterialRepository.findById).toHaveBeenCalledWith(materialId);
+  });
+
+  afterAll(() => {
+    jest.restoreAllMocks();
   });
 });

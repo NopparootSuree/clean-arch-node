@@ -18,6 +18,10 @@ describe('FindMaterialsUseCase', () => {
     findMaterialsUseCase = new FindMaterialsUseCase(mockMaterialRepository);
   });
 
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('should find materials successfully with pagination', async () => {
     const paginationOptions: PaginationOptions = { page: 1, limit: 10 };
     const materials: Material[] = [
@@ -63,5 +67,9 @@ describe('FindMaterialsUseCase', () => {
     mockMaterialRepository.findAll.mockRejectedValue(error);
 
     await expect(findMaterialsUseCase.execute(paginationOptions)).rejects.toThrow(DatabaseError);
+  });
+
+  afterAll(() => {
+    jest.restoreAllMocks();
   });
 });

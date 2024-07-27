@@ -7,7 +7,7 @@ export class User {
     public phone: string | null,
     public department: string | null,
     public createdAt: Date,
-    public updatedAt: Date,
+    public updatedAt: Date | null,
     public deletedAt: Date | null,
     public role: string,
   ) {}
