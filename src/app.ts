@@ -1,4 +1,5 @@
 import express from 'express';
+import path from 'path';
 
 // Database
 import { PrismaClient } from '@prisma/client';
@@ -15,8 +16,7 @@ import { rateLimitMiddleware, serverErrorHandler } from '@infrastructure/securit
 import { httpLogger } from '@utils/logger';
 
 // Swagger
-import swaggerUi from 'swagger-ui-express';
-import { materialSpecs, userSpecs } from '@utils/swagger';
+import { setupSwagger } from '@utils/swagger';
 
 // Group dependency material
 import { materialDependencies } from 'dependencies/materialDependencies';
@@ -29,32 +29,22 @@ export function createApp(prisma: PrismaClient) {
   app.use(httpLogger);
   app.use(rateLimitMiddleware);
 
-  app.use(
-    '/api-docs/materials',
-    swaggerUi.serve,
-    swaggerUi.setup(materialSpecs, {
-      explorer: true,
-      swaggerOptions: {
-        url: '/api-docs/materials/swagger.json',
-      },
-    }),
-  );
+  // Serve static files
+  app.use(express.static(path.join(__dirname, 'public')));
 
-  // Swagger UI for Users
-  app.use(
-    '/api-docs/users',
-    swaggerUi.serve,
-    swaggerUi.setup(userSpecs, {
-      explorer: true,
-      swaggerOptions: {
-        url: '/api-docs/users/swagger.json',
-      },
-    }),
-  );
+  // Main API docs page (HTML)
+  app.get('/api-docs', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'api-docs-index.html'));
+  });
 
-  // Serve Swagger JSON
-  app.get('/api-docs/materials/swagger.json', (req, res) => res.json(materialSpecs));
-  app.get('/api-docs/users/swagger.json', (req, res) => res.json(userSpecs));
+  // Prevent caching
+  app.use((req, res, next) => {
+    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, private');
+    next();
+  });
+
+  // Setup Swagger
+  setupSwagger(app);
 
   // Dependencies
   const transactionManager = new TransactionManager(prisma);

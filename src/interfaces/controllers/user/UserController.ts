@@ -70,7 +70,7 @@ export class UserController {
       const updateUserDto = plainToClass(UpdateUserDto, req.body);
       await validateDto(updateUserDto);
       const user = await this.updateUserUseCase.execute(userId, updateUserDto);
-      res.status(201).json(this.userSerializer.serialize(user));
+      res.status(200).json(this.userSerializer.serialize(user));
     } catch (error) {
       handleError(res, error);
     }
