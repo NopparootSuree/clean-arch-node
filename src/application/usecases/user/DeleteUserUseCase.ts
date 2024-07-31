@@ -34,6 +34,7 @@ export class DeleteUserUseCase {
         const errorMessage = 'Failed to delete user';
         logger.error(errorMessage, {
           code: errorCode,
+          resourceId: id,
           errorDetails: error instanceof Error ? error.message : 'Unknown error',
         });
         throw new DatabaseError(errorMessage, errorCode);

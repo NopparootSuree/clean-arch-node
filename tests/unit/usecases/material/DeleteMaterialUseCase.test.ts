@@ -34,7 +34,7 @@ describe('DeleteMaterialUseCase', () => {
     jest.clearAllMocks();
   });
 
-  it('should delete a material successfully', async () => {
+  it('should deleted a material successfully', async () => {
     const materialId = 1;
     const material = new Material(materialId, 'Test Material', 'Description', 10, 'pcs', new Date(), new Date(), null);
     const deletedMaterial = new Material(materialId, 'Test Material', 'Description', 10, 'pcs', new Date(), new Date(), new Date());
