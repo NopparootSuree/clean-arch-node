@@ -5,6 +5,9 @@ import { UpdateMaterialDto } from '@application/dtos/material/UpdateMaterialDto'
 import { UpdateMaterialUseCase } from '@application/usecases/material/UpdateMaterialUseCase';
 import { NotFoundError, DatabaseError } from '@utils/errors';
 
+jest.mock('@domain/repositories/material/MaterialRepository');
+jest.mock('@infrastructure/database/TransactionManager');
+
 describe('UpdateMaterialUseCase', () => {
   let updateMaterialUseCase: UpdateMaterialUseCase;
   let mockMaterialRepository: jest.Mocked<MaterialRepository>;
