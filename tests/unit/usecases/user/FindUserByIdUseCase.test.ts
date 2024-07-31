@@ -23,7 +23,7 @@ describe('FindUserByIdUseCase', () => {
 
     it('should find an existing user by id', async () => {
         const userId = 1;
-
+        
         const user: User = {
             id: 1,
             username: 'User',

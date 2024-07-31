@@ -37,12 +37,6 @@ export function createApp(prisma: PrismaClient) {
     res.sendFile(path.join(__dirname, 'public', 'api-docs-index.html'));
   });
 
-  // Prevent caching
-  app.use((req, res, next) => {
-    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, private');
-    next();
-  });
-
   // Setup Swagger
   setupSwagger(app);
 
@@ -51,7 +45,7 @@ export function createApp(prisma: PrismaClient) {
   const materialRepository = new DatabaseMaterialRepository(prisma);
   const userRepository = new DatabaseUserRepository(prisma);
 
-  // Dependency material
+  // Controller
   const materialController = materialDependencies(transactionManager, materialRepository);
   const userController = userDependencies(transactionManager, userRepository);
 
