@@ -1,12 +1,12 @@
-import { DatabaseUserRepository } from '@infrastructure/database/user/DatabaseUserRepository';
+import { DatabaseUserRepository } from '@infrastructure/database/DatabaseUserRepository';
 import { TransactionManager } from '@infrastructure/database/TransactionManager';
 import { CreateUserUseCase } from '@domain/usecases/user/CreateUserUseCase';
 import { FindUsersUseCase } from '@domain/usecases/user/FindUsersUseCase';
 import { FindUserByIdUseCase } from '@domain/usecases/user/FindUserByIdUseCase';
 import { UpdateUserUseCase } from '@domain/usecases/user/UpdateUserUseCase';
 import { DeleteUserUseCase } from '@domain/usecases/user/DeleteUserUseCase';
-import { UserSerializer } from '@interfaces/serializers/user/UserSerializer';
-import { UserController } from '@interfaces/controllers/user/UserController';
+import { UserSerializer } from '@interfaces/serializers/UserSerializer';
+import { UserController } from '@interfaces/controllers/UserController';
 
 export function userDependencies(transactionManager: TransactionManager, userRepository: DatabaseUserRepository) {
   const createUserUseCase = new CreateUserUseCase(userRepository, transactionManager);

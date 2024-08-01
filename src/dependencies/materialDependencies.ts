@@ -5,8 +5,8 @@ import { FindMaterialByIdUseCase } from '@domain/usecases/material/FindMaterialB
 import { FindMaterialsUseCase } from '@domain/usecases/material/FindMaterialsUseCase';
 import { UpdateMaterialUseCase } from '@domain/usecases/material/UpdateMaterialUseCase';
 import { DeleteMaterialUseCase } from '@domain/usecases/material/DeleteMaterialUseCase';
-import { MaterialController } from '@interfaces/controllers/material/MaterialController';
-import { MaterialSerializer } from '@interfaces/serializers/material/MaterialSerializer';
+import { MaterialController } from '@interfaces/controllers/MaterialController';
+import { MaterialSerializer } from '@interfaces/serializers/MaterialSerializer';
 
 export function materialDependencies(transactionManager: TransactionManager, materialRepository: DatabaseMaterialRepository): MaterialController {
   const createMaterialUseCase = new CreateMaterialUseCase(materialRepository, transactionManager);

@@ -1,5 +1,5 @@
 import express from 'express';
-import { MaterialController } from '@interfaces/controllers/material/MaterialController';
+import { MaterialController } from '@interfaces/controllers/MaterialController';
 
 /**
  * @swagger

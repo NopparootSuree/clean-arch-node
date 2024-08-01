@@ -3,7 +3,7 @@ import { CreateMaterialUseCase } from '@domain/usecases/material/CreateMaterialU
 import { FindMaterialsUseCase } from '@domain/usecases/material/FindMaterialsUseCase';
 import { FindMaterialByIdUseCase } from '@domain/usecases/material/FindMaterialByIdUseCase';
 import { UpdateMaterialUseCase } from '@domain/usecases/material/UpdateMaterialUseCase';
-import { MaterialSerializer } from '@interfaces/serializers/material/MaterialSerializer';
+import { MaterialSerializer } from '@interfaces/serializers/MaterialSerializer';
 import { DeleteMaterialUseCase } from '@domain/usecases/material/DeleteMaterialUseCase';
 import { CreateMaterialDto } from '@interfaces/dtos/material/CreateMaterialDto';
 import { UpdateMaterialDto } from '@interfaces/dtos/material/UpdateMaterialDto';

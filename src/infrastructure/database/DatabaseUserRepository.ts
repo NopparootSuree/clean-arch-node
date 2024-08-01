@@ -1,6 +1,6 @@
 import { PaginatedResult } from '@domain/usecases/material/FindMaterialsUseCase';
 import { User } from '@domain/entities/user/User';
-import { UserRepository } from '@domain/repositories/user/UserRepository';
+import { UserRepository } from '@domain/repositories/UserRepository';
 import { PrismaClient } from '@prisma/client';
 import { Transaction } from '../Transaction';
 

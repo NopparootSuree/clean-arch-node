@@ -1,5 +1,5 @@
 import express from 'express';
-import { UserController } from '@interfaces/controllers/user/UserController';
+import { UserController } from '@interfaces/controllers/UserController';
 
 /**
  * @swagger

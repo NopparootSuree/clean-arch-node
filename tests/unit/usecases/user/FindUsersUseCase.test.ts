@@ -1,5 +1,5 @@
 import { User } from '@domain/entities/user/User';
-import { UserRepository } from '@domain/repositories/user/UserRepository';
+import { UserRepository } from '@domain/repositories/UserRepository';
 import { FindUsersUseCase, PaginatedResult, PaginationOptions } from '@domain/usecases/user/FindUsersUseCase';
 import { DatabaseError, NotFoundError } from '@utils/errors';
 

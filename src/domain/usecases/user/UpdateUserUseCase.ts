@@ -1,5 +1,5 @@
 import { User } from '@domain/entities/user/User';
-import { UserRepository } from '@domain/repositories/user/UserRepository';
+import { UserRepository } from '@domain/repositories/UserRepository';
 import { TransactionManager } from '@infrastructure/database/TransactionManager';
 import { UpdateUserDto } from '@interfaces/dtos/user/UpdateUserDto';
 import { NotFoundError, ERROR_CODES, DatabaseError } from '@utils/errors';

@@ -1,5 +1,5 @@
 import { Material } from '@domain/entities/material/Material';
-import { MaterialRepository } from '@domain/repositories/material/MaterialRepository';
+import { MaterialRepository } from '@domain/repositories/MaterialRepository';
 import { TransactionManager } from '@infrastructure/database/TransactionManager';
 import { CreateMaterialDto } from '@interfaces/dtos/material/CreateMaterialDto';
 import { logger } from '@utils/logger';

@@ -1,6 +1,6 @@
 import { DeleteUserUseCase } from '@domain/usecases/user/DeleteUserUseCase';
 import { User } from '@domain/entities/user/User';
-import { UserRepository } from '@domain/repositories/user/UserRepository';
+import { UserRepository } from '@domain/repositories/UserRepository';
 import { TransactionManager } from '@infrastructure/database/TransactionManager';
 import { DatabaseError, NotFoundError } from '@utils/errors';
 import { Transaction } from '@infrastructure/database/Transaction';

@@ -3,13 +3,13 @@ import path from 'path';
 
 // Database
 import { PrismaClient } from '@prisma/client';
-import { DatabaseMaterialRepository } from '@infrastructure/database/material/DatabaseMaterialRepository';
-import { DatabaseUserRepository } from '@infrastructure/database/user/DatabaseUserRepository';
+import { DatabaseMaterialRepository } from '@infrastructure/database/DatabaseMaterialRepository';
+import { DatabaseUserRepository } from '@infrastructure/database/DatabaseUserRepository';
 import { TransactionManager } from '@infrastructure/database/TransactionManager';
 
 // Route
-import { createMaterialRoutes } from './interfaces/routes/material/materialRoutes';
-import { createUserRoutes } from '@interfaces/routes/user/userReoute';
+import { createMaterialRoutes } from './interfaces/routes/materialRoutes';
+import { createUserRoutes } from '@interfaces/routes/userReoute';
 
 // Middleware
 import { rateLimitMiddleware, serverErrorHandler } from '@infrastructure/security/rateLimitMiddleware';
@@ -29,12 +29,15 @@ export function createApp(prisma: PrismaClient) {
   app.use(httpLogger);
   app.use(rateLimitMiddleware);
 
+  // ปรับ path ให้ชี้ไปยัง root ของโปรเจค
+  const rootDir = path.join(__dirname, '..');
+
   // Serve static files
-  app.use(express.static(path.join(__dirname, 'public')));
+  app.use(express.static(path.join(rootDir, 'public')));
 
   // Main API docs page (HTML)
   app.get('/api-docs', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'api-docs-index.html'));
+    res.sendFile(path.join(rootDir, 'public', 'api-docs-index.html'));
   });
 
   // Setup Swagger

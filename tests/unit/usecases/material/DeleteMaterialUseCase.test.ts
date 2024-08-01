@@ -1,6 +1,6 @@
 import { DeleteMaterialUseCase } from '@domain/usecases/material/DeleteMaterialUseCase';
 import { Material } from '@domain/entities/material/Material';
-import { MaterialRepository } from '@domain/repositories/material/MaterialRepository';
+import { MaterialRepository } from '@domain/repositories/MaterialRepository';
 import { TransactionManager } from '@infrastructure/database/TransactionManager';
 import { DatabaseError, NotFoundError } from '@utils/errors';
 import { Transaction } from '@infrastructure/database/Transaction';

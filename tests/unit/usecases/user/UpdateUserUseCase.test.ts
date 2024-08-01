@@ -1,5 +1,5 @@
 import { User } from '@domain/entities/user/User';
-import { UserRepository } from '@domain/repositories/user/UserRepository';
+import { UserRepository } from '@domain/repositories/UserRepository';
 import { TransactionManager } from '@infrastructure/database/TransactionManager';
 import { UpdateUserUseCase } from '@domain/usecases/user/UpdateUserUseCase';
 import { UpdateUserDto } from '@interfaces/dtos/user/UpdateUserDto';

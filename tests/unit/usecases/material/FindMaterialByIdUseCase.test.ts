@@ -1,5 +1,5 @@
 import { Material } from '@domain/entities/material/Material';
-import { MaterialRepository } from '@domain/repositories/material/MaterialRepository';
+import { MaterialRepository } from '@domain/repositories/MaterialRepository';
 import { FindMaterialByIdUseCase } from '@domain/usecases/material/FindMaterialByIdUseCase';
 import { DatabaseError, NotFoundError } from '@utils/errors';
 

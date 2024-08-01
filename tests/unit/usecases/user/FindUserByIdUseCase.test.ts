@@ -1,5 +1,5 @@
 import { User } from "@domain/entities/user/User";
-import { UserRepository } from "@domain/repositories/user/UserRepository";
+import { UserRepository } from "@domain/repositories/UserRepository";
 import { FindUserByIdUseCase } from "@domain/usecases/user/FindUserByIdUseCase";
 import { DatabaseError, NotFoundError } from "@utils/errors";
 

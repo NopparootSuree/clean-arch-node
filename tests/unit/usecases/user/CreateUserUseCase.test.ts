@@ -1,6 +1,6 @@
 import { CreateUserUseCase } from '@domain/usecases/user/CreateUserUseCase';
 import { User } from '@domain/entities/user/User';
-import { UserRepository } from '@domain/repositories/user/UserRepository';
+import { UserRepository } from '@domain/repositories/UserRepository';
 import { TransactionManager } from '@infrastructure/database/TransactionManager';
 import { CreateUserDto } from '@interfaces/dtos/user/CreateUserDto';
 import { DatabaseError } from '@utils/errors';

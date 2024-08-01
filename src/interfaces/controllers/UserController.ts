@@ -7,7 +7,7 @@ import { FindUserByIdUseCase } from '@domain/usecases/user/FindUserByIdUseCase';
 import { UpdateUserUseCase } from '@domain/usecases/user/UpdateUserUseCase';
 import { DeleteUserUseCase } from '@domain/usecases/user/DeleteUserUseCase';
 import { plainToClass } from 'class-transformer';
-import { UserSerializer } from '@interfaces/serializers/user/UserSerializer';
+import { UserSerializer } from '@interfaces/serializers/UserSerializer';
 import { ValidationError } from '@utils/errors';
 import { handleError, validateDto, validateId } from '@utils/controller-handler';
 
