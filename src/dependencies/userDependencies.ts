@@ -1,10 +1,10 @@
 import { DatabaseUserRepository } from '@infrastructure/database/user/DatabaseUserRepository';
 import { TransactionManager } from '@infrastructure/database/TransactionManager';
-import { CreateUserUseCase } from '@application/usecases/user/CreateUserUseCase';
-import { FindUsersUseCase } from '@application/usecases/user/FindUsersUseCase';
-import { FindUserByIdUseCase } from '@application/usecases/user/FindUserByIdUseCase';
-import { UpdateUserUseCase } from '@application/usecases/user/UpdateUserUseCase';
-import { DeleteUserUseCase } from '@application/usecases/user/DeleteUserUseCase';
+import { CreateUserUseCase } from '@domain/usecases/user/CreateUserUseCase';
+import { FindUsersUseCase } from '@domain/usecases/user/FindUsersUseCase';
+import { FindUserByIdUseCase } from '@domain/usecases/user/FindUserByIdUseCase';
+import { UpdateUserUseCase } from '@domain/usecases/user/UpdateUserUseCase';
+import { DeleteUserUseCase } from '@domain/usecases/user/DeleteUserUseCase';
 import { UserSerializer } from '@interfaces/serializers/user/UserSerializer';
 import { UserController } from '@interfaces/controllers/user/UserController';
 

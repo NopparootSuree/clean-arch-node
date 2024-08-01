@@ -1,6 +1,6 @@
 import { Material } from '@domain/entities/material/Material';
 import { MaterialRepository } from '@domain/repositories/material/MaterialRepository';
-import { FindMaterialByIdUseCase } from '@application/usecases/material/FindMaterialByIdUseCase';
+import { FindMaterialByIdUseCase } from '@domain/usecases/material/FindMaterialByIdUseCase';
 import { DatabaseError, NotFoundError } from '@utils/errors';
 
 jest.mock('@domain/repositories/material/MaterialRepository');

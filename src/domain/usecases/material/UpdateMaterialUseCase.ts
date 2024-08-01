@@ -1,7 +1,7 @@
 import { Material } from '@domain/entities/material/Material';
 import { MaterialRepository } from '@domain/repositories/material/MaterialRepository';
 import { TransactionManager } from '@infrastructure/database/TransactionManager';
-import { UpdateMaterialDto } from '@application/dtos/material/UpdateMaterialDto';
+import { UpdateMaterialDto } from '@interfaces/dtos/material/UpdateMaterialDto';
 import { logger } from '@utils/logger';
 import { DatabaseError, ERROR_CODES, NotFoundError } from '@utils/errors';
 

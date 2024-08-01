@@ -1,7 +1,7 @@
 import { User } from '@domain/entities/user/User';
 import { UserRepository } from '@domain/repositories/user/UserRepository';
 import { TransactionManager } from '@infrastructure/database/TransactionManager';
-import { UpdateUserDto } from '@application/dtos/user/UpdateUserDto';
+import { UpdateUserDto } from '@interfaces/dtos/user/UpdateUserDto';
 import { NotFoundError, ERROR_CODES, DatabaseError } from '@utils/errors';
 import { logger } from '@utils/logger';
 

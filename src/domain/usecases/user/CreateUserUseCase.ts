@@ -1,6 +1,6 @@
 import { User } from '@domain/entities/user/User';
 import { UserRepository } from '@domain/repositories/user/UserRepository';
-import { CreateUserDto } from '@application/dtos/user/CreateUserDto';
+import { CreateUserDto } from '@interfaces/dtos/user/CreateUserDto';
 import { TransactionManager } from '@infrastructure/database/TransactionManager';
 import { logger } from '@utils/logger';
 import { DatabaseError, ERROR_CODES } from '@utils/errors';

@@ -1,6 +1,6 @@
 import { User } from '@domain/entities/user/User';
 import { UserRepository } from '@domain/repositories/user/UserRepository';
-import { FindUsersUseCase, PaginatedResult, PaginationOptions } from '@application/usecases/user/FindUsersUseCase';
+import { FindUsersUseCase, PaginatedResult, PaginationOptions } from '@domain/usecases/user/FindUsersUseCase';
 import { DatabaseError, NotFoundError } from '@utils/errors';
 
 jest.mock('@domain/repositories/user/UserRepository');

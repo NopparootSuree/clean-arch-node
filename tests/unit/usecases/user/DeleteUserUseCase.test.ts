@@ -1,4 +1,4 @@
-import { DeleteUserUseCase } from '@application/usecases/user/DeleteUserUseCase';
+import { DeleteUserUseCase } from '@domain/usecases/user/DeleteUserUseCase';
 import { User } from '@domain/entities/user/User';
 import { UserRepository } from '@domain/repositories/user/UserRepository';
 import { TransactionManager } from '@infrastructure/database/TransactionManager';

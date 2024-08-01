@@ -1,11 +1,11 @@
 import { Request, Response } from 'express';
-import { UpdateUserDto } from '@application/dtos/user/UpdateUserDto';
-import { CreateUserDto } from '@application/dtos/user/CreateUserDto';
-import { CreateUserUseCase } from '@application/usecases/user/CreateUserUseCase';
-import { FindUsersUseCase } from '@application/usecases/user/FindUsersUseCase';
-import { FindUserByIdUseCase } from '@application/usecases/user/FindUserByIdUseCase';
-import { UpdateUserUseCase } from '@application/usecases/user/UpdateUserUseCase';
-import { DeleteUserUseCase } from '@application/usecases/user/DeleteUserUseCase';
+import { UpdateUserDto } from '@interfaces/dtos/user/UpdateUserDto';
+import { CreateUserDto } from '@interfaces/dtos/user/CreateUserDto';
+import { CreateUserUseCase } from '@domain/usecases/user/CreateUserUseCase';
+import { FindUsersUseCase } from '@domain/usecases/user/FindUsersUseCase';
+import { FindUserByIdUseCase } from '@domain/usecases/user/FindUserByIdUseCase';
+import { UpdateUserUseCase } from '@domain/usecases/user/UpdateUserUseCase';
+import { DeleteUserUseCase } from '@domain/usecases/user/DeleteUserUseCase';
 import { plainToClass } from 'class-transformer';
 import { UserSerializer } from '@interfaces/serializers/user/UserSerializer';
 import { ValidationError } from '@utils/errors';

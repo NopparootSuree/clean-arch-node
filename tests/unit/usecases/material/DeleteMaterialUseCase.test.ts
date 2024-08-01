@@ -1,4 +1,4 @@
-import { DeleteMaterialUseCase } from '@application/usecases/material/DeleteMaterialUseCase';
+import { DeleteMaterialUseCase } from '@domain/usecases/material/DeleteMaterialUseCase';
 import { Material } from '@domain/entities/material/Material';
 import { MaterialRepository } from '@domain/repositories/material/MaterialRepository';
 import { TransactionManager } from '@infrastructure/database/TransactionManager';

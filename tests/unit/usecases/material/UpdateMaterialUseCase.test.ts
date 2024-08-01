@@ -1,8 +1,8 @@
 import { Material } from '@domain/entities/material/Material';
 import { MaterialRepository } from '@domain/repositories/material/MaterialRepository';
 import { TransactionManager } from '@infrastructure/database/TransactionManager';
-import { UpdateMaterialDto } from '@application/dtos/material/UpdateMaterialDto';
-import { UpdateMaterialUseCase } from '@application/usecases/material/UpdateMaterialUseCase';
+import { UpdateMaterialDto } from '@interfaces/dtos/material/UpdateMaterialDto';
+import { UpdateMaterialUseCase } from '@domain/usecases/material/UpdateMaterialUseCase';
 import { NotFoundError, DatabaseError } from '@utils/errors';
 
 jest.mock('@domain/repositories/material/MaterialRepository');

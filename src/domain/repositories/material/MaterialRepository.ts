@@ -1,6 +1,6 @@
 import { Material } from '@domain/entities/material/Material';
 import { Transaction } from '@infrastructure/database/Transaction';
-import { PaginatedResult } from '@application/usecases/material/FindMaterialsUseCase';
+import { PaginatedResult } from '@domain/usecases/material/FindMaterialsUseCase';
 
 export interface MaterialRepository {
   findAll(options: { page: number; limit: number }): Promise<PaginatedResult<Material>>;

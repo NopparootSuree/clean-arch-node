@@ -1,8 +1,8 @@
 import { User } from '@domain/entities/user/User';
 import { UserRepository } from '@domain/repositories/user/UserRepository';
 import { TransactionManager } from '@infrastructure/database/TransactionManager';
-import { UpdateUserUseCase } from '@application/usecases/user/UpdateUserUseCase';
-import { UpdateUserDto } from '@application/dtos/user/UpdateUserDto';
+import { UpdateUserUseCase } from '@domain/usecases/user/UpdateUserUseCase';
+import { UpdateUserDto } from '@interfaces/dtos/user/UpdateUserDto';
 import { NotFoundError, DatabaseError } from '@utils/errors';
 
 jest.mock('@domain/repositories/user/UserRepository');
