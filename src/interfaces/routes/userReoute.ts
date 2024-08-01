@@ -8,7 +8,7 @@ import { UserController } from '@interfaces/controllers/UserController';
  *   description: API Endpoints for managing users
  */
 
-export function createUserRoutes(userController: UserController) {
+export function userRoutes(userController: UserController) {
   const router = express.Router();
 
   /**

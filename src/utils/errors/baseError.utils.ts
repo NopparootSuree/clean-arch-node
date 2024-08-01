@@ -1,4 +1,4 @@
-import { ERROR_CODES } from './error-codes';
+import { ERROR_CODES } from './errorCodes.utils';
 
 export class AppError<T = undefined> extends Error {
   constructor(

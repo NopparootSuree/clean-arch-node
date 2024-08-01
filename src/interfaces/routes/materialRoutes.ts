@@ -8,7 +8,7 @@ import { MaterialController } from '@interfaces/controllers/MaterialController';
  *   description: API Endpoints for managing materials
  */
 
-export function createMaterialRoutes(materialController: MaterialController) {
+export function materialRoutes(materialController: MaterialController) {
   const router = express.Router();
 
   /**

@@ -8,19 +8,19 @@ import { DatabaseUserRepository } from '@infrastructure/database/DatabaseUserRep
 import { TransactionManager } from '@infrastructure/database/TransactionManager';
 
 // Route
-import { createMaterialRoutes } from './interfaces/routes/materialRoutes';
-import { createUserRoutes } from '@interfaces/routes/userReoute';
+import { materialRoutes, userRoutes } from './interfaces/routes';
 
 // Middleware
 import { rateLimitMiddleware, serverErrorHandler } from '@infrastructure/security/rateLimitMiddleware';
+
+// Logger
 import { httpLogger } from '@configs/logger.config';
 
 // Swagger
 import { setupSwagger } from '@configs/swagger.config';
 
 // Group dependency material
-import { materialDependencies } from 'dependencies/materialDependencies';
-import { userDependencies } from 'dependencies/userDependencies';
+import { materialDependencies, userDependencies } from 'di';
 
 export function createApp(prisma: PrismaClient) {
   const app = express();
@@ -53,8 +53,8 @@ export function createApp(prisma: PrismaClient) {
   const userController = userDependencies(transactionManager, userRepository);
 
   // Routes
-  app.use('/api/materials', createMaterialRoutes(materialController));
-  app.use('/api/users', createUserRoutes(userController));
+  app.use('/api/materials', materialRoutes(materialController));
+  app.use('/api/users', userRoutes(userController));
 
   // Error handling middleware
   app.use(serverErrorHandler);

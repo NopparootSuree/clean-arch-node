@@ -1,14 +1,10 @@
 import { Request, Response } from 'express';
-import { CreateMaterialUseCase } from '@domain/usecases/material/CreateMaterialUseCase';
-import { FindMaterialsUseCase } from '@domain/usecases/material/FindMaterialsUseCase';
-import { FindMaterialByIdUseCase } from '@domain/usecases/material/FindMaterialByIdUseCase';
-import { UpdateMaterialUseCase } from '@domain/usecases/material/UpdateMaterialUseCase';
+import { CreateMaterialUseCase, FindMaterialsUseCase, FindMaterialByIdUseCase, UpdateMaterialUseCase, DeleteMaterialUseCase } from '@domain/usecases/material';
 import { MaterialSerializer } from '@interfaces/serializers/MaterialSerializer';
-import { DeleteMaterialUseCase } from '@domain/usecases/material/DeleteMaterialUseCase';
 import { CreateMaterialDto } from '@interfaces/dtos/material/CreateMaterialDto';
 import { UpdateMaterialDto } from '@interfaces/dtos/material/UpdateMaterialDto';
 import { plainToClass } from 'class-transformer';
-import { ValidationError } from '@utils/errors';
+import { ValidationError } from '@utils/errors/baseError.utils';
 import { handleError, validateDto, validateId } from '@utils/controller.utils';
 
 export class MaterialController {

@@ -1,10 +1,6 @@
 import { DatabaseMaterialRepository } from '@infrastructure/database/DatabaseMaterialRepository';
 import { TransactionManager } from '@infrastructure/database/TransactionManager';
-import { CreateMaterialUseCase } from '@domain/usecases/material/CreateMaterialUseCase';
-import { FindMaterialByIdUseCase } from '@domain/usecases/material/FindMaterialByIdUseCase';
-import { FindMaterialsUseCase } from '@domain/usecases/material/FindMaterialsUseCase';
-import { UpdateMaterialUseCase } from '@domain/usecases/material/UpdateMaterialUseCase';
-import { DeleteMaterialUseCase } from '@domain/usecases/material/DeleteMaterialUseCase';
+import { CreateMaterialUseCase, FindMaterialByIdUseCase, FindMaterialsUseCase, UpdateMaterialUseCase, DeleteMaterialUseCase } from '@domain/usecases/material';
 import { MaterialController } from '@interfaces/controllers/MaterialController';
 import { MaterialSerializer } from '@interfaces/serializers/MaterialSerializer';
 

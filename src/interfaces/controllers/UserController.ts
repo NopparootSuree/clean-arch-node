@@ -1,14 +1,10 @@
 import { Request, Response } from 'express';
 import { UpdateUserDto } from '@interfaces/dtos/user/UpdateUserDto';
 import { CreateUserDto } from '@interfaces/dtos/user/CreateUserDto';
-import { CreateUserUseCase } from '@domain/usecases/user/CreateUserUseCase';
-import { FindUsersUseCase } from '@domain/usecases/user/FindUsersUseCase';
-import { FindUserByIdUseCase } from '@domain/usecases/user/FindUserByIdUseCase';
-import { UpdateUserUseCase } from '@domain/usecases/user/UpdateUserUseCase';
-import { DeleteUserUseCase } from '@domain/usecases/user/DeleteUserUseCase';
+import { CreateUserUseCase, FindUsersUseCase, FindUserByIdUseCase, UpdateUserUseCase, DeleteUserUseCase } from '@domain/usecases/user';
 import { plainToClass } from 'class-transformer';
 import { UserSerializer } from '@interfaces/serializers/UserSerializer';
-import { ValidationError } from '@utils/errors';
+import { ValidationError } from '@utils/errors/baseError.utils';
 import { handleError, validateDto, validateId } from '@utils/controller.utils';
 
 export class UserController {
