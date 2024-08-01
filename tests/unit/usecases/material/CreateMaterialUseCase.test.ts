@@ -7,7 +7,7 @@ import { DatabaseError } from '@utils/errors';
 import { Transaction } from '@infrastructure/database/Transaction';
 
 // Mock dependencies
-jest.mock('@domain/repositories/material/MaterialRepository');
+jest.mock('@domain/repositories/MaterialRepository');
 jest.mock('@infrastructure/database/TransactionManager');
 
 describe('CreateMaterialUseCase', () => {

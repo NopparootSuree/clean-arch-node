@@ -3,7 +3,7 @@ import { MaterialRepository } from '@domain/repositories/MaterialRepository';
 import { FindMaterialByIdUseCase } from '@domain/usecases/material/FindMaterialByIdUseCase';
 import { DatabaseError, NotFoundError } from '@utils/errors';
 
-jest.mock('@domain/repositories/material/MaterialRepository');
+jest.mock('@domain/repositories/MaterialRepository');
 
 describe('FindMaterialByIdUseCase', () => {
   let findMaterialByIdUseCase: FindMaterialByIdUseCase;

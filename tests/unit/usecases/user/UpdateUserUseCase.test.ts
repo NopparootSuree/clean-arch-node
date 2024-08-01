@@ -5,7 +5,7 @@ import { UpdateUserUseCase } from '@domain/usecases/user/UpdateUserUseCase';
 import { UpdateUserDto } from '@interfaces/dtos/user/UpdateUserDto';
 import { NotFoundError, DatabaseError } from '@utils/errors';
 
-jest.mock('@domain/repositories/user/UserRepository');
+jest.mock('@domain/repositories/UserRepository');
 jest.mock('@infrastructure/database/TransactionManager');
 
 describe('UpdateUserUseCase', () => {

@@ -3,7 +3,7 @@ import { UserRepository } from "@domain/repositories/UserRepository";
 import { FindUserByIdUseCase } from "@domain/usecases/user/FindUserByIdUseCase";
 import { DatabaseError, NotFoundError } from "@utils/errors";
 
-jest.mock('@domain/repositories/user/UserRepository');
+jest.mock('@domain/repositories/UserRepository');
 
 describe('FindUserByIdUseCase', () => {
     let findUserByIdUseCase: FindUserByIdUseCase;

@@ -3,7 +3,7 @@ import { MaterialRepository } from '@domain/repositories/MaterialRepository';
 import { FindMaterialsUseCase, PaginationOptions, PaginatedResult } from '@domain/usecases/material/FindMaterialsUseCase';
 import { DatabaseError, NotFoundError } from '@utils/errors';
 
-jest.mock('@domain/repositories/material/MaterialRepository');
+jest.mock('@domain/repositories/MaterialRepository');
 
 describe('FindMaterialsUseCase', () => {
   let findMaterialsUseCase: FindMaterialsUseCase;

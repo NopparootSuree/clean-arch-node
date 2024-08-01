@@ -5,7 +5,7 @@ import { UpdateMaterialDto } from '@interfaces/dtos/material/UpdateMaterialDto';
 import { UpdateMaterialUseCase } from '@domain/usecases/material/UpdateMaterialUseCase';
 import { NotFoundError, DatabaseError } from '@utils/errors';
 
-jest.mock('@domain/repositories/material/MaterialRepository');
+jest.mock('@domain/repositories/MaterialRepository');
 jest.mock('@infrastructure/database/TransactionManager');
 
 describe('UpdateMaterialUseCase', () => {

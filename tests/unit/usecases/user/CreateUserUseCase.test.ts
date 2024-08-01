@@ -7,7 +7,7 @@ import { DatabaseError } from '@utils/errors';
 import { Transaction } from '@infrastructure/database/Transaction';
 
 // Mock dependencies
-jest.mock('@domain/repositories/user/UserRepository');
+jest.mock('@domain/repositories/UserRepository');
 jest.mock('@infrastructure/database/TransactionManager');
 
 describe('CreateUserUseCase', () => {

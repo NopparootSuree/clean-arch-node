@@ -5,7 +5,7 @@ import { TransactionManager } from '@infrastructure/database/TransactionManager'
 import { DatabaseError, NotFoundError } from '@utils/errors';
 import { Transaction } from '@infrastructure/database/Transaction';
 
-jest.mock('@domain/repositories/user/UserRepository');
+jest.mock('@domain/repositories/UserRepository');
 jest.mock('@infrastructure/database/TransactionManager');
 
 describe('DeleteUserUseCase', () => {
