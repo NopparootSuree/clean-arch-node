@@ -1,6 +1,6 @@
 import { User } from '@domain/entities/user/User';
 import { UserRepository } from '@domain/repositories/UserRepository';
-import { logger } from '@utils/logger';
+import { logger } from '@configs/logger.config';
 import { NotFoundError, ERROR_CODES, DatabaseError } from '@utils/errors';
 
 export class FindUserByIdUseCase {

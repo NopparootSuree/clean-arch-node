@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import { createApp } from './app';
-import { logger } from '@utils/logger';
+import { logger } from '@configs/logger.config';
 
 const prisma = new PrismaClient();
 const app = createApp(prisma);

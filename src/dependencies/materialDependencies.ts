@@ -1,4 +1,4 @@
-import { DatabaseMaterialRepository } from '@infrastructure/database/material/DatabaseMaterialRepository';
+import { DatabaseMaterialRepository } from '@infrastructure/database/DatabaseMaterialRepository';
 import { TransactionManager } from '@infrastructure/database/TransactionManager';
 import { CreateMaterialUseCase } from '@domain/usecases/material/CreateMaterialUseCase';
 import { FindMaterialByIdUseCase } from '@domain/usecases/material/FindMaterialByIdUseCase';

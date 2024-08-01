@@ -3,7 +3,7 @@ import { UserRepository } from '@domain/repositories/UserRepository';
 import { TransactionManager } from '@infrastructure/database/TransactionManager';
 import { UpdateUserDto } from '@interfaces/dtos/user/UpdateUserDto';
 import { NotFoundError, ERROR_CODES, DatabaseError } from '@utils/errors';
-import { logger } from '@utils/logger';
+import { logger } from '@configs/logger.config';
 
 export class UpdateUserUseCase {
   constructor(

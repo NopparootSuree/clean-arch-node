@@ -9,7 +9,7 @@ import { CreateMaterialDto } from '@interfaces/dtos/material/CreateMaterialDto';
 import { UpdateMaterialDto } from '@interfaces/dtos/material/UpdateMaterialDto';
 import { plainToClass } from 'class-transformer';
 import { ValidationError } from '@utils/errors';
-import { handleError, validateDto, validateId } from '@utils/controller-handler';
+import { handleError, validateDto, validateId } from '@utils/controller.utils';
 
 export class MaterialController {
   constructor(

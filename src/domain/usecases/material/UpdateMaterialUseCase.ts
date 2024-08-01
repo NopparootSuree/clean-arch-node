@@ -2,7 +2,7 @@ import { Material } from '@domain/entities/material/Material';
 import { MaterialRepository } from '@domain/repositories/MaterialRepository';
 import { TransactionManager } from '@infrastructure/database/TransactionManager';
 import { UpdateMaterialDto } from '@interfaces/dtos/material/UpdateMaterialDto';
-import { logger } from '@utils/logger';
+import { logger } from '@configs/logger.config';
 import { DatabaseError, ERROR_CODES, NotFoundError } from '@utils/errors';
 
 export class UpdateMaterialUseCase {

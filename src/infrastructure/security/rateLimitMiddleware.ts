@@ -1,4 +1,4 @@
-import { config } from '@configs/config';
+import { config } from '@configs/env.config';
 import { Request, Response, NextFunction } from 'express';
 import rateLimit from 'express-rate-limit';
 

@@ -1,7 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import { Material } from '@domain/entities/material/Material';
 import { MaterialRepository } from '@domain/repositories/MaterialRepository';
-import { Transaction } from '../Transaction';
+import { Transaction } from './Transaction';
 import { PaginatedResult } from '@domain/usecases/material/FindMaterialsUseCase';
 
 export class DatabaseMaterialRepository implements MaterialRepository {

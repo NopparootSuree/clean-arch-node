@@ -2,7 +2,7 @@ import { User } from '@domain/entities/user/User';
 import { UserRepository } from '@domain/repositories/UserRepository';
 import { TransactionManager } from '@infrastructure/database/TransactionManager';
 import { NotFoundError, DatabaseError, ERROR_CODES } from '@utils/errors';
-import { logger } from '@utils/logger';
+import { logger } from '@configs/logger.config';
 
 export class DeleteUserUseCase {
   constructor(

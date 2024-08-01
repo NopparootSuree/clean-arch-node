@@ -31,7 +31,7 @@ const materialOptions: swaggerJsdoc.OAS3Options = {
     ...baseOptionsMaterial.definition,
     tags: [{ name: 'Materials', description: 'Material management' }],
   },
-  apis: ['./src/interfaces/routes/material/*.ts'],
+  apis: ['./src/interfaces/routes/materialRoutes.ts'],
 };
 
 const userOptions: swaggerJsdoc.OAS3Options = {
@@ -40,7 +40,7 @@ const userOptions: swaggerJsdoc.OAS3Options = {
     ...baseOptionsUser.definition,
     tags: [{ name: 'Users', description: 'User management' }],
   },
-  apis: ['./src/interfaces/routes/user/*.ts'],
+  apis: ['./src/interfaces/routes/userReoute.ts'],
 };
 
 export const materialSpecs = swaggerJsdoc(materialOptions);

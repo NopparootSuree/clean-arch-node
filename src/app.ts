@@ -13,10 +13,10 @@ import { createUserRoutes } from '@interfaces/routes/userReoute';
 
 // Middleware
 import { rateLimitMiddleware, serverErrorHandler } from '@infrastructure/security/rateLimitMiddleware';
-import { httpLogger } from '@utils/logger';
+import { httpLogger } from '@configs/logger.config';
 
 // Swagger
-import { setupSwagger } from '@utils/swagger';
+import { setupSwagger } from '@configs/swagger.config';
 
 // Group dependency material
 import { materialDependencies } from 'dependencies/materialDependencies';

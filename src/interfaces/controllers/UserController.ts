@@ -9,7 +9,7 @@ import { DeleteUserUseCase } from '@domain/usecases/user/DeleteUserUseCase';
 import { plainToClass } from 'class-transformer';
 import { UserSerializer } from '@interfaces/serializers/UserSerializer';
 import { ValidationError } from '@utils/errors';
-import { handleError, validateDto, validateId } from '@utils/controller-handler';
+import { handleError, validateDto, validateId } from '@utils/controller.utils';
 
 export class UserController {
   constructor(

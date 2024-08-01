@@ -3,7 +3,7 @@
 import { Response } from 'express';
 import { validate } from 'class-validator';
 import { AppError, InternalServerError, ValidationError, ERROR_CODES } from '@utils/errors';
-import { logger } from '@utils/logger';
+import { logger } from '@configs/logger.config';
 
 export function handleError(res: Response, error: unknown): void {
   if (error instanceof AppError) {
