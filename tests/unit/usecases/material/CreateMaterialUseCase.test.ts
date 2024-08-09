@@ -2,7 +2,7 @@ import { CreateMaterialUseCase } from '@domain/usecases/material/CreateMaterialU
 import { Material } from '@domain/entities/material/Material';
 import { MaterialRepository } from '@domain/repositories/MaterialRepository';
 import { TransactionManager } from '@infrastructure/database/TransactionManager';
-import { CreateMaterialDto } from '@interfaces/dtos/material/CreateMaterialDto';
+import { CreateMaterialDto } from '@interfaces/dtos/material/CreateMaterialDto'
 import { DatabaseError } from '@utils/errors';
 import { Transaction } from '@infrastructure/database/Transaction';
 
